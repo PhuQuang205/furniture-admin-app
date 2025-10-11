@@ -23,8 +23,6 @@ export default function AuthLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={`${inter.variable} antialiased`}>
 				<div className="min-h-screen flex items-center justify-center">
 					<div className="flex w-[1300px] h-[900px]">
 						<div className="flex-1 flex items-center justify-center">{children}</div>
@@ -33,7 +31,6 @@ export default function AuthLayout({
 						</div>
 					</div>
 				</div>
-			</body>
-		</html>
+
 	);
 }

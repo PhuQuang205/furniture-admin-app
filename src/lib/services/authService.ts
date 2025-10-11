@@ -5,6 +5,7 @@ export const login = async (email: string, password: string) => {
 
   // Lưu accessToken vào localStorage
   localStorage.setItem("accessToken", res.data.accessToken);
+  localStorage.setItem("user", JSON.stringify(res.data.user));
 
   return res.data;
 };
