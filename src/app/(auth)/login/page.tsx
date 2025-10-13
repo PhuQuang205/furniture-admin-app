@@ -9,6 +9,7 @@ import { FurnitureLogo } from "@/components/FurnitureLogo";
 import { toast } from "sonner";
 import { login } from "@/lib/services/authService";
 import { useRouter } from "next/navigation";
+import {useUser} from "@/context/UserContext";
 
 const LoginPage = () => {
 	const router = useRouter();
@@ -16,6 +17,7 @@ const LoginPage = () => {
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const { setUser } = useUser();
 	
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -23,6 +25,8 @@ const LoginPage = () => {
 		setError("");
 		try {
 			await login(email, password);
+			const data = await login(email, password);
+			setUser(data.user);
 			router.push("/");
 		} catch (err) {
 			toast.error("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
