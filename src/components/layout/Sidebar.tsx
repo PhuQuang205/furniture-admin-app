@@ -4,6 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import {useRole} from "@/hook/useRole";
 
 interface SidebarProps {
     isActive: boolean;
@@ -24,6 +25,7 @@ interface MenuGroup {
 
 const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
     const [openMenu, setOpenMenu] = useState<string | null>(null);
+    const {hasRole} = useRole();
 
     // 🧩 Chia nhóm menu
     const menuGroups: MenuGroup[] = [
@@ -52,7 +54,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
         {
             title: "APPS",
             items: [
-                { label: "Users", icon: "lucide:users", href: "/users" },
+                // ✅ Chỉ admin hoặc user-manager mới thấy "Users"
+                ...(hasRole(["ROLE_ADMIN", "ROLE_USER_MANAGER"])
+                    ? [{ label: "Users", icon: "lucide:users", href: "/users" }]
+                    : []),
                 { label: "Products", icon: "lucide:package", href: "/products" },
                 { label: "Orders", icon: "lucide:shopping-cart", href: "/orders" },
                 { label: "Settings", icon: "lucide:settings", href: "/settings" },
