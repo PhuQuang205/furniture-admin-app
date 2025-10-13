@@ -1,7 +1,18 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "res.cloudinary.com",  // domain ảnh avatar của bạn
+                // hoặc nếu bạn dùng nhiều subdomain: hostname: "**.cloudinary.com"
+                port: "",
+                pathname: "/**",
+            },
+            // bạn có thể thêm patterns cho các domain khác nếu cần
+        ],
+        // domains: [] // bạn có thể bỏ phần domains nếu trước đó có
+    },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

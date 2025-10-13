@@ -82,14 +82,14 @@ const LoginPage = () => {
 
 					{error && <p className="text-red-500 text-sm">{error}</p>}
 
-					<div className="flex items-center justify-between">
-						<Link
-							href="/forgot-password"
-							className="text-sm font-medium text-greenly underline underline-offset-4"
-						>
-							Quên mật khẩu?
-						</Link>
-					</div>
+					{/*<div className="flex items-center justify-between">*/}
+					{/*	<Link*/}
+					{/*		href="/forgot-password"*/}
+					{/*		className="text-sm font-medium text-greenly underline underline-offset-4"*/}
+					{/*	>*/}
+					{/*		Quên mật khẩu?*/}
+					{/*	</Link>*/}
+					{/*</div>*/}
 
 					<div className="flex flex-col">
 						<Button
@@ -99,18 +99,6 @@ const LoginPage = () => {
 						>
 							{loading ? "Đang đăng nhập..." : "Đăng nhập"}
 						</Button>
-					</div>
-
-					<div className="text-center">
-						<span className="text-sm text-black">
-							Chưa có tài khoản?{" "}
-							<Link
-								href="/register"
-								className="text-greenly underline underline-offset-4 font-medium"
-							>
-								Đăng ký
-							</Link>
-						</span>
 					</div>
 				</form>
 			</div>
