@@ -70,7 +70,7 @@ api.interceptors.response.use(
 
 		try {
 			const res = await axios.post<{ accessToken: string }>(
-				"http://localhost/api/oauth/token/refresh",
+				"http://localhost:8080/admin/api/oauth/token/refresh",
 				{},
 				{ withCredentials: true }
 			);

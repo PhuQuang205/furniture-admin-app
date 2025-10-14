@@ -19,7 +19,7 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ title, className }) => {
             )}
         >
             {/* Tiêu đề trái */}
-            <h6 className="text-lg font-semibold text-foreground">Dashboard</h6>
+            <h6 className="text-lg font-semibold text-foreground">{title}</h6>
 
             {/* Breadcrumb bên phải */}
             <ul className="flex items-center gap-2 text-sm text-muted-foreground">
