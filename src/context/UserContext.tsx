@@ -14,28 +14,31 @@ interface UserContextType {
     user: User | null;
     setUser: (user: User | null) => void;
     logout: () => void;
+    loading: boolean; // trạng thái đang load user
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     // Khôi phục user từ localStorage khi load lại trang
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) setUser(JSON.parse(storedUser));
+        setLoading(false); // đã load xong
     }, []);
 
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
-        localStorage.removeItem("accessToken"); // Xóa token nếu có
+        localStorage.removeItem("accessToken");
         window.location.href = "/login";
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, logout }}>
+        <UserContext.Provider value={{ user, setUser, logout, loading }}>
             {children}
         </UserContext.Provider>
     );

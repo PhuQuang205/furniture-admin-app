@@ -39,20 +39,20 @@ import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 
 export const useAuthorization = (allowedRoles: string[]) => {
-    const { user } = useUser();
+    const { user, loading } = useUser();
     const router = useRouter();
-    const [authorized, setAuthorized] = useState<boolean | null>(null); // null = đang check
+    const [authorized, setAuthorized] = useState<boolean | null>(null);
 
     useEffect(() => {
+        if (loading) return; // chờ load user xong
+
         if (!user) {
             router.replace("/login");
             return;
         }
 
-        const userRoles = user.roles?.map((r) => r.name) || [];
-        const hasPermission = userRoles.some((role) =>
-            allowedRoles.includes(role)
-        );
+        const userRoles = user.roles?.map(r => r.name) || [];
+        const hasPermission = userRoles.some(role => allowedRoles.includes(role));
 
         if (!hasPermission) {
             router.replace("/forbidden");
@@ -60,7 +60,7 @@ export const useAuthorization = (allowedRoles: string[]) => {
         }
 
         setAuthorized(true);
-    }, [user, router, allowedRoles]);
+    }, [user, loading, router, allowedRoles]);
 
     return authorized;
 };
