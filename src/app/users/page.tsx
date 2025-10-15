@@ -2,13 +2,8 @@
 "use client";
 
 import MasterLayout from "@/masterLayout/MasterLayout";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@iconify/react";
 import { useAuthorization } from "@/hook/useAuthorization";
-import UserTable from "@/components/users/UserTable";
-import { useUsers } from "@/hook/useUsers";
 import Breadcrumb from "@/components/Breadcrumb";
-import {Input} from "@/components/ui/input";
 import UserManagement from "@/components/users/UserManagement";
 
 export default function UserPage() {
@@ -40,7 +35,6 @@ export default function UserPage() {
     return (
         <MasterLayout>
             <div className="p-6 space-y-6">
-                {/* Breadcrumb */}
                 <Breadcrumb title="User - List" />
                 <UserManagement />
             </div>

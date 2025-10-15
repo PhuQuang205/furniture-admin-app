@@ -32,7 +32,7 @@ const ProfileDropdown = () => {
                 className="flex justify-center items-center rounded-full w-10 h-10 hover:ring-2 hover:ring-primary transition-all"
             >
                 <Image
-                    src={user?.avatarUrl || "/images/client-image/client1.jpg"}
+                    src={user?.avatarUrl || "/assets/images/client-image/client1.jpg"}
                     width={40}
                     height={40}
                     alt="profile"

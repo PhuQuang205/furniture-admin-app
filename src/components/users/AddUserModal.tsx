@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { UserForm } from "./UserForm";
-import { userService } from "@/lib/services/userService";
 import {User, UserFormData} from "@/components/types";
 import { useUsers } from "@/hook/useUsers";
 
@@ -17,14 +16,14 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({ onCreate }) => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formKey, setFormKey] = useState(Date.now());
-    const { createUser } = useUsers(); // lấy function từ hook
+    const { createUser } = useUsers();
 
 
     const handleCreate = async (data: UserFormData) => {
         try {
             setLoading(true);
-            const newUser = await createUser(data); // gọi hook để tạo user và update state
-            onCreate?.(newUser); // gọi callback nếu parent cần
+            const newUser = await createUser(data); 
+            onCreate?.(newUser);
             setOpen(false);
         } catch (err) {
             console.error(err);
@@ -35,7 +34,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({ onCreate }) => {
     };
 
     const handleOpen = () => {
-        setFormKey(Date.now()); // reset form mỗi lần mở
+        setFormKey(Date.now());
         setOpen(true);
     };
 
