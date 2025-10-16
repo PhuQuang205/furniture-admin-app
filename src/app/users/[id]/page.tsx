@@ -17,7 +17,7 @@ const UserEditPage = () => {
 	const route = useRouter();
 	const { id } = useParams();
 	const [user, setUser] = useState<User | null>(null);
-	const [originalUser, setOriginalUser] = useState<User | null>(null); // ✅ dữ liệu gốc
+	const [originalUser, setOriginalUser] = useState<User | null>(null);
 	const [roles, setRoles] = useState<Role[]>([]);
 	const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
 	const [password, setPassword] = useState<string>("");
@@ -61,8 +61,7 @@ const UserEditPage = () => {
 
 			return
 		};
-
-		// ✅ Kiểm tra có thay đổi gì không
+		
 		const hasChanges =
 			password.trim() !== "" ||
 			user.firstName !== originalUser.firstName ||

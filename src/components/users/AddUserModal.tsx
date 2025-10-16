@@ -27,7 +27,6 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({ onCreate }) => {
             setOpen(false);
         } catch (err) {
             console.error(err);
-            alert("Failed to create user");
         } finally {
             setLoading(false);
         }

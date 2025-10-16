@@ -55,8 +55,6 @@ export const UserForm: React.FC<UserFormProps> = ({
 		},
 	});
 
-	console.log("+Form: ", form);
-
 	const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
 		initialData?.avatarUrl
 	);
@@ -89,7 +87,6 @@ export const UserForm: React.FC<UserFormProps> = ({
 				className="space-y-4"
 				autoComplete="off"
 			>
-				{/* First Name */}
 				<FormField
 					control={form.control}
 					name="firstName"
@@ -103,7 +100,6 @@ export const UserForm: React.FC<UserFormProps> = ({
 						</FormItem>
 					)}
 				/>
-				{/* Last Name */}
 				<FormField
 					control={form.control}
 					name="lastName"
@@ -117,7 +113,6 @@ export const UserForm: React.FC<UserFormProps> = ({
 						</FormItem>
 					)}
 				/>
-				{/* Email */}
 				<FormField
 					control={form.control}
 					name="email"
@@ -131,7 +126,6 @@ export const UserForm: React.FC<UserFormProps> = ({
 						</FormItem>
 					)}
 				/>
-				{/* Password */}
 				<FormField
 					control={form.control}
 					name="password"
@@ -145,7 +139,6 @@ export const UserForm: React.FC<UserFormProps> = ({
 						</FormItem>
 					)}
 				/>
-				{/* Avatar */}
 				<FormItem>
 					<FormLabel>Avatar</FormLabel>
 					<FormControl>
@@ -166,7 +159,6 @@ export const UserForm: React.FC<UserFormProps> = ({
 						/>
 					)}
 				</FormItem>
-				{/* Roles */}
 				<FormField
 					control={form.control}
 					name="roleIds"
@@ -196,9 +188,9 @@ export const UserForm: React.FC<UserFormProps> = ({
 												<span>
 													{
 														role.name
-															.replace(/^ROLE_/, "") // bỏ "ROLE_"
-															.toLowerCase() // chuyển tất cả thành chữ thường
-															.replace(/\b\w/g, (c) => c.toUpperCase()) // viết hoa chữ cái đầu mỗi từ
+															.replace(/^ROLE_/, "") 
+															.toLowerCase() 
+															.replace(/\b\w/g, (c) => c.toUpperCase())
 													}{" "}
 													- {role.description}
 												</span>

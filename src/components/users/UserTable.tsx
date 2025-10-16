@@ -44,7 +44,6 @@ export default function UserTable({
 	const handleUpdate = (id: number) => {
 		route.push(`/users/${id}`)
 	}
-	console.log(users);
 	return (
 		<div className="space-y-4">
 			<div className="border rounded-lg overflow-hidden">
@@ -129,26 +128,10 @@ export default function UserTable({
 										>
 											<Icon
 												icon="lucide:eye"
-												className="w-4 h-4"
+												className="size-4"
 												style={{ color: "oklch(54.6% 0.245 262.881)" }}
 											/>
 										</Button>
-
-										{/* <EditUserModal
-											user={user}
-											onUpdate={(updatedUser) => {
-												const fixedUser: User = {
-													...updatedUser,
-													roles: updatedUser.roles || [],
-												};
-
-												setUsers((prev) =>
-													prev.map((u) =>
-														u.id === fixedUser.id ? fixedUser : u
-													)
-												);
-											}}
-										/> */}
 										<Button className="cursor-pointer" onClick={() => handleUpdate(user.id)}>
 											<Edit className="size-5"/>
 											Edit
@@ -162,7 +145,7 @@ export default function UserTable({
 										>
 											<Icon
 												icon="lucide:trash-2"
-												className="w-4 h-4"
+												className="size-4"
 												style={{ color: "oklch(63.7% 0.237 25.331)" }}
 											/>
 										</Button>
@@ -176,14 +159,11 @@ export default function UserTable({
 
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between mt-6">
-					{/* BÊN TRÁI: hiển thị thông tin số lượng */}
 					<div className="text-sm text-gray-600">
 						Showing {page * size + 1} to{" "}
 						{Math.min((page + 1) * size, totalElements)} of {totalElements}{" "}
 						entries
 					</div>
-
-					{/* BÊN PHẢI: phân trang */}
 					<div className="flex items-center gap-1">
 						{/* Về trang đầu */}
 						<Button

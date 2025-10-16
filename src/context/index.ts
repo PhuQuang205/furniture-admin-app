@@ -1,4 +1,4 @@
-import { Faq } from "@/app/(main-layout)/faqs/page";
+// import { Faq } from "@/app/(main-layout)/faqs/page";
 
 export interface Product {
 	id: number;
@@ -10,6 +10,13 @@ export interface Product {
 	image: string;
 	discount: number;
 }
+
+export type BreadcrumbItemType = {
+	label: string;
+	href?: string;
+};
+
+
 
 export const DEALPRODUCTS = [
 	{
@@ -381,143 +388,3 @@ export const FAQDATA = [
 	},
 ];
 
-export const FAQS: Faq[] = [
-	{
-		id: "general",
-		name: "Thông tin chung",
-		questions: [
-			{
-				id: 1,
-				question: "Làm thế nào để tôi có thể đặt hàng?",
-				answer:
-					"Bạn có thể đặt hàng bằng cách duyệt sản phẩm, thêm các mặt hàng vào giỏ, và tiến hành thanh toán. Chỉ cần làm theo các bước đơn giản để hoàn tất đơn hàng.",
-			},
-			{
-				id: 2,
-				question: "Bạn chấp nhận những phương thức thanh toán nào?",
-				answer:
-					"Chúng tôi chấp nhận nhiều phương thức thanh toán bao gồm thẻ tín dụng (Visa, Mastercard, American Express), PayPal và chuyển khoản ngân hàng. Tất cả giao dịch đều được bảo mật và mã hóa.",
-			},
-			{
-				id: 3,
-				question: "Bạn có cung cấp dịch vụ hỗ trợ khách hàng không?",
-				answer:
-					"Có, chúng tôi cung cấp dịch vụ hỗ trợ khách hàng 24/7 qua email, trò chuyện trực tuyến và điện thoại. Đội ngũ chuyên trách của chúng tôi luôn sẵn sàng hỗ trợ bạn với mọi câu hỏi hoặc thắc mắc.",
-			},
-			{
-				id: 4,
-				question: "Tôi có cần tạo tài khoản để mua hàng không?",
-				answer:
-					"Bạn không bắt buộc phải tạo tài khoản, nhưng việc đăng ký sẽ giúp bạn quản lý đơn hàng, lưu địa chỉ giao hàng và nhận các ưu đãi độc quyền.",
-			},
-			{
-				id: 5,
-				question: "Thời gian xử lý đơn hàng mất bao lâu?",
-				answer:
-					"Thông thường đơn hàng sẽ được xử lý trong vòng 24 giờ làm việc kể từ khi bạn thanh toán thành công. Một số đơn hàng đặc biệt có thể mất nhiều thời gian hơn.",
-			},
-			{
-				id: 6,
-				question: "Làm thế nào để theo dõi tình trạng đơn hàng?",
-				answer:
-					"Sau khi đặt hàng, bạn sẽ nhận được email xác nhận cùng mã theo dõi. Bạn có thể dùng mã này để theo dõi tình trạng giao hàng trực tuyến.",
-			},
-		],
-	},
-	{
-		id: "ordering",
-		name: "Đặt hàng & Giao hàng",
-		questions: [
-			{
-				id: 4,
-				question: "Tôi có thể theo dõi đơn hàng sau khi đặt không?",
-				answer:
-					"Có. Khi đơn hàng của bạn được gửi đi, bạn sẽ nhận được mã vận đơn qua email. Bạn có thể dùng mã này để theo dõi tình trạng giao hàng theo thời gian thực trên website của chúng tôi hoặc website của đơn vị vận chuyển.",
-			},
-			{
-				id: 5,
-				question: "Thời gian giao hàng mất bao lâu?",
-				answer:
-					"Giao hàng tiêu chuẩn thường mất từ 5–7 ngày làm việc. Ngoài ra, bạn có thể chọn gói giao hàng nhanh với thời gian từ 2–3 ngày. Đối với đơn hàng quốc tế, thời gian giao hàng có thể từ 10–15 ngày làm việc.",
-			},
-			{
-				id: 6,
-				question: "Bạn có giao hàng quốc tế không?",
-				answer:
-					"Có, chúng tôi giao hàng đến hầu hết các quốc gia trên thế giới. Chi phí vận chuyển và thời gian giao hàng sẽ khác nhau tùy theo địa điểm. Vui lòng tham khảo chính sách vận chuyển của chúng tôi để biết thêm chi tiết.",
-			},
-		],
-	},
-	{
-		id: "returns",
-		name: "Đổi trả & Trao đổi",
-		questions: [
-			{
-				id: 7,
-				question: "Chính sách đổi trả của bạn là gì?",
-				answer:
-					"Chúng tôi áp dụng chính sách đổi trả trong vòng 30 ngày cho hầu hết các sản phẩm. Sản phẩm phải còn nguyên vẹn, chưa qua sử dụng và trong bao bì gốc. Vui lòng liên hệ bộ phận chăm sóc khách hàng để bắt đầu quy trình đổi trả.",
-			},
-			{
-				id: 8,
-				question: "Làm thế nào để tôi đổi một sản phẩm?",
-				answer:
-					"Để đổi sản phẩm, hãy liên hệ với bộ phận chăm sóc khách hàng, cung cấp số đơn hàng và sản phẩm bạn muốn đổi. Chúng tôi sẽ hướng dẫn bạn chi tiết các bước thực hiện.",
-			},
-			{
-				id: 9,
-				question: "Ai sẽ chịu phí vận chuyển khi trả hàng?",
-				answer:
-					"Nếu sản phẩm bị lỗi hoặc giao sai, chúng tôi sẽ chịu phí vận chuyển trả hàng. Với các trường hợp đổi trả khác, khách hàng sẽ chịu phí vận chuyển.",
-			},
-		],
-	},
-	{
-		id: "payments",
-		name: "Thanh toán & Khuyến mãi",
-		questions: [
-			{
-				id: 10,
-				question: "Bạn có chương trình khuyến mãi hay giảm giá không?",
-				answer:
-					"Có, chúng tôi thường xuyên có các chương trình khuyến mãi và giảm giá. Hãy đăng ký nhận bản tin để nhận ưu đãi độc quyền và cập nhật sớm nhất về các đợt giảm giá.",
-			},
-			{
-				id: 11,
-				question: "Tôi có thể sử dụng nhiều mã giảm giá cùng lúc không?",
-				answer:
-					"Thông thường, mỗi đơn hàng chỉ áp dụng được một mã giảm giá. Tuy nhiên, một số chương trình khuyến mãi đặc biệt có thể được áp dụng chồng. Vui lòng kiểm tra điều khoản và điều kiện của từng ưu đãi.",
-			},
-			{
-				id: 12,
-				question: "Thông tin thanh toán của tôi có an toàn không?",
-				answer:
-					"Hoàn toàn an toàn. Chúng tôi sử dụng chuẩn mã hóa SSL để bảo vệ thông tin thanh toán của bạn. Chúng tôi không bao giờ lưu trữ đầy đủ thông tin thẻ tín dụng trên hệ thống.",
-			},
-		],
-	},
-	{
-		id: "account",
-		name: "Tài khoản & Hồ sơ",
-		questions: [
-			{
-				id: 13,
-				question: "Làm thế nào để tạo tài khoản?",
-				answer:
-					'Nhấn vào nút "Đăng ký" ở góc trên bên phải, điền thông tin bao gồm email và mật khẩu, sau đó xác minh email để hoàn tất đăng ký.',
-			},
-			{
-				id: 14,
-				question: "Tôi có thể thay đổi thông tin tài khoản không?",
-				answer:
-					"Có, bạn có thể cập nhật thông tin tài khoản bất cứ lúc nào bằng cách đăng nhập và vào phần cài đặt tài khoản. Bạn có thể thay đổi email, mật khẩu và địa chỉ giao hàng.",
-			},
-			{
-				id: 15,
-				question: "Làm thế nào để đặt lại mật khẩu?",
-				answer:
-					'Nhấn vào "Quên mật khẩu" ở trang đăng nhập, nhập địa chỉ email của bạn và làm theo hướng dẫn trong email để đặt lại mật khẩu.',
-			},
-		],
-	},
-];

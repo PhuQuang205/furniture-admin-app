@@ -3,7 +3,7 @@
 import { FC } from "react";
 import Link from "next/link";
 import { Home } from "lucide-react";
-import { cn } from "@/lib/utils"; // tiện cho merge class nếu bạn dùng shadcn setup
+import { cn } from "@/lib/utils"; 
 
 interface BreadcrumbProps {
     title: string;
@@ -17,11 +17,8 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ title, className }) => {
                 "flex flex-wrap items-center justify-between gap-3 mb-6",
                 className
             )}
-        >
-            {/* Tiêu đề trái */}
+        >            
             <h6 className="text-lg font-semibold text-foreground">{title}</h6>
-
-            {/* Breadcrumb bên phải */}
             <ul className="flex items-center gap-2 text-sm text-muted-foreground">
                 <li>
                     <Link

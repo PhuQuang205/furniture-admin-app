@@ -26,34 +26,35 @@ export const useUsers = () => {
 	const [size] = useState(5);
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
-	const [keyword, setKeyword] = useState("");
 
-	// Fetch users
-	const fetchUsers = async (
-		pageNum = page,
-		search?: string,
-		sortField: string = "id",
-		sortDir: "asc" | "desc" = "asc"
-	) => {
-		try {
-			setLoading(true);
-			const res: PagedResponse<User> = await userService.getAll(
-				pageNum,
-				size,
-				search ?? "",
-				sortField,
-				sortDir
-			);
-			setUsers(res.data);
-			setPage(res.page);
-			setTotalPages(res.totalPages);
-			setTotalElements(res.totalElements);
-		} catch (error) {
-			console.error("❌ Failed to fetch users:", error);
-		} finally {
-			setLoading(false);
-		}
-	};
+	const fetchUsers = useCallback(
+		async (
+			pageNum = page,
+			search?: string,
+			sortField: string = "id",
+			sortDir: "asc" | "desc" = "asc"
+		) => {
+			try {
+				setLoading(true);
+				const res: PagedResponse<User> = await userService.getAll(
+					pageNum,
+					size,
+					search ?? "",
+					sortField,
+					sortDir
+				);
+				setUsers(res.data);
+				setPage(res.page);
+				setTotalPages(res.totalPages);
+				setTotalElements(res.totalElements);
+			} catch (error) {
+				console.error("❌ Failed to fetch users:", error);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[page, size]
+	);
 
 	const fetchUserById = useCallback(async (id: number) => {
 		try {
@@ -63,7 +64,7 @@ export const useUsers = () => {
 			return user;
 		} catch (error) {
 			console.error("❌ Failed to fetch user detail:", error);
-			alert("Không thể tải thông tin user!");
+			console.log("Không thể tải thông tin user!");
 			return null;
 		} finally {
 			setLoading(false);
@@ -73,15 +74,14 @@ export const useUsers = () => {
 	const updateUserStatus = useCallback(async (id: number, enabled: boolean) => {
 		try {
 			setLoading(true);
-			await userService.updateUserStatus(id, enabled); // gọi service
-
+			await userService.updateUserStatus(id, enabled);
 			// Cập nhật state local ngay lập tức
 			setUsers((prev) =>
 				prev.map((user) => (user.id === id ? { ...user, enabled } : user))
 			);
 		} catch (error) {
 			console.error("❌ Failed to update user status:", error);
-			alert("Cập nhật trạng thái thất bại!");
+			console.log("Cập nhật trạng thái thất bại!");
 		} finally {
 			setLoading(false);
 		}
@@ -91,7 +91,7 @@ export const useUsers = () => {
 		setLoading(true);
 		try {
 			const newUser = await userService.createUser(userData);
-			setUsers((prev) => [...prev, newUser]); // thêm vào state
+			setUsers((prev) => [...prev, newUser]);
 			return newUser;
 		} finally {
 			setLoading(false);
@@ -106,7 +106,7 @@ export const useUsers = () => {
 			setUsers((prev) => prev.filter((user) => user.id !== id));
 		} catch (err: unknown) {
 			console.error("❌ Xóa user thất bại:", err);
-			alert("Xóa user thất bại!");
+			console.log("Xóa user thất bại!");
 		} finally {
 			setLoading(false);
 		}
@@ -114,7 +114,7 @@ export const useUsers = () => {
 
 	useEffect(() => {
 		fetchUsers(page);
-	}, [page]);
+	}, [page, fetchUsers]);
 
 	return {
 		users,
@@ -125,7 +125,6 @@ export const useUsers = () => {
 		page,
 		totalPages,
 		size,
-		keyword,
 		createUser,
 		updateUserStatus,
 		deleteUser,

@@ -16,14 +16,6 @@ import {AddUserModal} from "@/components/users/AddUserModal";
 import {useUsers} from "@/hook/useUsers";
 import {User} from "@/components/types";
 
-
-// const [keyword, setKeyword] = useState("");
-//
-// const handleSearch = (kw: string) => {
-//     setKeyword(kw);
-//     fetchUsers(0, kw); // reset về trang 0 và tìm theo keyword
-// };
-
 export default function UserManagement() {
 
     const [keyword] = useState("");
@@ -31,8 +23,8 @@ export default function UserManagement() {
     const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
     const handleSearch = (kw: string) => {
-        setPage(0);        // reset page
-        refetch(0, kw);    // gọi API với keyword mới
+        setPage(0);        
+        refetch(0, kw);   
     };
 
 
@@ -63,15 +55,13 @@ export default function UserManagement() {
     return (
         <>
             <div className="flex justify-between items-center gap-4">
-                {/* Input search + dropdown */}
                 <div className="flex items-center gap-2 flex-1">
                     <SearchInput
                         placeholder="Search by name or email..."
                         onSearch={handleSearch}
                         initialValue={keyword}
-                        className="flex-1" // input chiếm hết space
+                        className="flex-1"
                     />
-                    {/* Sort field dropdown */}
                     <Select value={sortField} onValueChange={handleSortChange}>
                         <SelectTrigger className="w-[120px]">
                             <SelectValue placeholder="Sort field" />
@@ -97,21 +87,12 @@ export default function UserManagement() {
                         )}
                     </Button>
                 </div>
-
-                {/* Add User button */}
-                {/*<Button onClick={() => refetch(0, keyword)}>*/}
-                {/*    <Icon icon="lucide:plus" className="w-4 h-4 mr-2"/>*/}
-                {/*    Add User*/}
-                {/*</Button>*/}
                 <AddUserModal
                     onCreate={(newUser) => {
-                        // thêm user mới vào đầu danh sách để table tự rerender
                         setUsers((prev: User[]) => [newUser, ...prev]);
                     }}
                 />
             </div>
-
-            {/* Bảng user */}
             <UserTable
                 users={users}
                 loading={loading}

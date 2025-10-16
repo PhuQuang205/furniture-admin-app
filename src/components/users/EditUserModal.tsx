@@ -1,7 +1,7 @@
 // EditUserModal.tsx
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
 	Dialog,
 	DialogTrigger,
@@ -36,7 +36,6 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({
 			setOpen(false);
 		} catch (err) {
 			console.error(err);
-			alert("Failed to update user");
 		} finally {
 			setLoading(false);
 		}
