@@ -65,6 +65,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 					icon: "lucide:shopping-cart",
 					href: "/orders",
 				},
+				{
+					label: "Quản lý Kho",
+					icon: "lucide:store",
+					href: "/stocks",
+				},
 			],
 		},
 	];

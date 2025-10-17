@@ -88,7 +88,7 @@ api.interceptors.response.use(
 			// Log lỗi chi tiết mà không dùng console.log("object")
 			console.error("Request failed:", err);
 
-			// window.location.href = "/login";
+			window.location.href = "/login";
 			return Promise.reject(err);
 		} finally {
 			isRefreshing = false;
