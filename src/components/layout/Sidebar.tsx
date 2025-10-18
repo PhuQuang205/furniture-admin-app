@@ -68,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 				{
 					label: "Quản lý Kho",
 					icon: "lucide:store",
-					href: "/stocks",
+					href: "/inventory",
 				},
 			],
 		},

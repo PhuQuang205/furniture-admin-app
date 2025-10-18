@@ -4,7 +4,7 @@
 import MasterLayout from "@/masterLayout/MasterLayout";
 import { useAuthorization } from "@/hook/useAuthorization";
 import Breadcrumb from "@/components/Breadcrumb";
-import UserManagement from "@/components/users/UserManagement";
+import {UserManagement} from "@/components/users/UserManagement";
 
 export default function UserPage() {
     const authorized = useAuthorization(["ROLE_ADMIN", "ROLE_USER_MANAGER"]);

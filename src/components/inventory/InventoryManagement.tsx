@@ -1,8 +1,8 @@
-import {Button} from "@/components/ui/button";
-import {Icon} from "@iconify/react";
-import UserTable from "@/components/users/UserTable";
-import {SearchInput} from "@/components/SearchInput";
+"use client";
+
 import {useState} from "react";
+import {useInventories} from "@/hook/useInventories";
+import {SearchInput} from "@/components/SearchInput";
 import {
     Select,
     SelectContent,
@@ -12,35 +12,38 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
+import {Button} from "@/components/ui/button";
+import {Icon} from "@iconify/react";
 import {AddUserModal} from "@/components/users/AddUserModal";
-import {useUsers} from "@/hook/useUsers";
 import {User} from "@/components/types";
+import UserTable from "@/components/users/UserTable";
+import ProductInventoryTable from "@/components/inventory/ProductInventoryTable";
 
-export const UserManagement=()=> {
-
+export const InventoryManagement = () => {
     const [keyword] = useState("");
-    const [sortField, setSortField] = useState<string>("name");
+    const [sortField, setSortField] = useState<string>("id");
     const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
-    const handleSearch = (kw: string) => {
-        setPage(0);        
-        refetch(0, kw);   
-    };
-
+    const handleSearch = (kw: string)=> {
+        setPage(0);
+        refetch(0, kw);
+    }
 
     const handleSortChange = (field: string) => {
         setPage(0);
         setSortField(field);
         refetch(0, keyword, field, sortDir);
     };
+
     const toggleSortDir = () => {
         const newDir = sortDir === "asc" ? "desc" : "asc";
         setSortDir(newDir);
         refetch(0, keyword, sortField, newDir);
     };
+
     const {
-        users,
-        setUsers,
+        inventories,
+        setInventories,
         loading,
         totalElements,
         page,
@@ -48,9 +51,7 @@ export const UserManagement=()=> {
         size,
         refetch,
         setPage,
-        updateUserStatus,
-        deleteUser
-    } = useUsers();
+    } = useInventories();
 
     return (
         <>
@@ -69,10 +70,10 @@ export const UserManagement=()=> {
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Fields</SelectLabel>
-                                <SelectItem value="firstName">First name</SelectItem>
-                                <SelectItem value="lastName">Last name</SelectItem>
-                                <SelectItem value="email">Email</SelectItem>
-                                <SelectItem value="createdAt">Created At</SelectItem>
+                                <SelectItem value="id">Product Id</SelectItem>
+                                <SelectItem value="name">Product name</SelectItem>
+                                <SelectItem value="quantity">Quantity</SelectItem>
+                                {/*<SelectItem value="createdAt">Created At</SelectItem>*/}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -87,24 +88,35 @@ export const UserManagement=()=> {
                         )}
                     </Button>
                 </div>
-                <AddUserModal
-                    onCreate={(newUser) => {
-                        setUsers((prev: User[]) => [newUser, ...prev]);
-                    }}
-                />
+                {/*<AddUserModal*/}
+                {/*    onCreate={(newUser) => {*/}
+                {/*        setUsers((prev: User[]) => [newUser, ...prev]);*/}
+                {/*    }}*/}
+                {/*/>*/}
             </div>
-            <UserTable
-                users={users}
+            <ProductInventoryTable
+                inventories={inventories}
                 loading={loading}
                 size={size}
                 page={page}
                 totalPages={totalPages}
                 totalElements={totalElements}
-                updateUserStatus={updateUserStatus}
-                deleteUser={deleteUser}
                 onPageChange={setPage}
-                setUsers={setUsers}
+                setInventories={setInventories}
+                refresh={refetch}
             />
+            {/*<UserTable*/}
+            {/*    users={users}*/}
+            {/*    loading={loading}*/}
+            {/*    size={size}*/}
+            {/*    page={page}*/}
+            {/*    totalPages={totalPages}*/}
+            {/*    totalElements={totalElements}*/}
+            {/*    updateUserStatus={updateUserStatus}*/}
+            {/*    deleteUser={deleteUser}*/}
+            {/*    onPageChange={setPage}*/}
+            {/*    setUsers={setUsers}*/}
+            {/*/>        */}
         </>
-    );
+    )
 }
