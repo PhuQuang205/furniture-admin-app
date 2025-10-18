@@ -554,7 +554,7 @@ const AddProductForm = () => {
 									onClick={addDetail}
 								>
 									<Plus size={18} />
-									Add Detail
+									Thêm mô tả thuộc tính
 								</Button>
 							</div>
 

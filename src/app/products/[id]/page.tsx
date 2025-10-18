@@ -40,7 +40,7 @@ const DetailProduct = () => {
 			}
 		};
 		getData();
-	}, [id]);
+	}, [id, fetchProductById]);
 
 	const breadcrumbs: BreadcrumbItemType[] = [
 		{

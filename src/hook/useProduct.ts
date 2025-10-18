@@ -7,6 +7,7 @@ import {
 	ProductPageResponse,
 	ProductRequest,
 } from "@/lib/services/productService";
+import { toast } from "sonner";
 
 export const useProducts = () => {
 	const [products, setProducts] = useState<ProductResponse[]>([]);
@@ -118,7 +119,7 @@ export const useProducts = () => {
 			setLoading(true);
 			await productService.delete(id);
 			setProducts((prev) => prev.filter((p) => p.id !== id));
-			console.log("✅ Xóa sản phẩm thành công");
+			toast.success("Xóa sản phẩm thành công!");
 		} catch (error) {
 			console.error("❌ Failed to delete product:", error);
 		} finally {

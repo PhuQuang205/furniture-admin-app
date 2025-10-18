@@ -21,11 +21,8 @@ export const ProductManagement = () => {
 	const router = useRouter();
 	const {
 		products,
-		setProducts,
-		fetchProducts,
+		deleteProduct,
 		loading,
-		page,
-		totalPages,
 	} = useProducts();
 
 	const [sortField, setSortField] = useState<string>("name");
@@ -46,6 +43,10 @@ export const ProductManagement = () => {
 	const toggleSortDir = () => {
 		setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
 	};
+
+	const handleDelete = async (id: number) => {
+		await deleteProduct(id);		
+	}
 
 	return (
 		<>
@@ -101,7 +102,7 @@ export const ProductManagement = () => {
 			</div>
 
 			<h2>Danh sách sản phẩm</h2>
-			<ProductTable products={products} loading={loading} />
+			<ProductTable products={products} loading={loading} onDelete={handleDelete}/>
 		</>
 	);
 };

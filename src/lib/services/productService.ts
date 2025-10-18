@@ -2,6 +2,7 @@ import api from "@/lib/axios";
 
 // 🧱 Mô tả chi tiết sản phẩm
 export interface ProductDetail {
+	id?: number
 	name: string;
 	value: string;
 }
@@ -51,24 +52,42 @@ export interface ProductPageResponse {
 	totalPages: number;
 }
 
-// 🧾 Dữ liệu gửi lên khi tạo / cập nhật sản phẩm
 export interface ProductRequest {
-	name: string;
-	alias: string;
-	shortDescription: string;
-	fullDescription: string;
-	enabled: boolean;
-	inStock: boolean;
-	cost: number;
-	price: number;
-	discountPercent: number;
-	length: number;
-	width: number;
-	height: number;
-	weight: number;
-	categoryId: number;
-	details: ProductDetail[];
+  id: number;
+  name: string;
+  alias: string;
+  shortDescription: string;
+  fullDescription: string;
+  enabled: boolean;
+  inStock: boolean;
+  cost: number;
+  price: number;
+  discountPercent: number;
+  length: number;
+  width: number;
+  height: number;
+  weight: number;
+  categoryId: number;
+
+  // 🖼️ Thứ tự ảnh mới được upload
+  newImageOrder: number[];
+
+  // 🖼️ Các ảnh cũ được giữ lại (theo id và vị trí)
+  retainedImages: {
+    id: number;
+    position: number;
+  }[];
+
+  // 🧾 Các mô tả kỹ thuật mới thêm
+  newProductDetails: {
+    name: string;
+    value: string;
+  }[];
+
+  // 🧾 Các mô tả kỹ thuật cũ được giữ lại
+  retainedProductDetailIds: number[];
 }
+
 
 export const productService = {
 	// 🟢 Lấy danh sách sản phẩm (có phân trang)
@@ -110,7 +129,7 @@ export const productService = {
 		const formData = new FormData();
 
 		formData.append(
-			"products",
+			"product",
 			new Blob([JSON.stringify(productData)], { type: "application/json" })
 		);
 
@@ -123,16 +142,14 @@ export const productService = {
 		const res = await api.put(`/products`, formData, {
 			headers: { "Content-Type": "multipart/form-data" },
 		});
-		return res.data as ProductResponse;
+		return res.data;
 	},
 
-	// 🔄 Cập nhật trạng thái (PATCH)
 	async updateStatus(id: number, enabled: boolean) {
 		const res = await api.patch(`/products/${id}?enabled=${enabled}`);
 		return res.data;
 	},
 
-	// ❌ Xóa sản phẩm theo id
 	async delete(id: number) {
 		const res = await api.delete(`/products/${id}`);
 		return res.data;
