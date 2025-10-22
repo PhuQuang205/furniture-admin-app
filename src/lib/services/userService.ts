@@ -1,14 +1,5 @@
 import api from "@/lib/axios";
-import { Role, UserFormData, UserRequest } from "@/components/types";
-
-export interface User {
-	id: number;
-	email: string;
-	firstName: string;
-	lastName: string;
-	enabled: boolean;
-	roles: Role[]; // danh sách role chi tiết (nếu backend trả về)
-}
+import {UserFormData, UserRequest} from "@/components/types";
 
 export const userService = {
 	async getAll(

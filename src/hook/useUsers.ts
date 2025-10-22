@@ -4,12 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { userService } from "@/lib/services/userService";
 import { User, UserFormData } from "@/components/types";
 
-export interface Role {
-	id: number;
-	name: string;
-	description: string;
-}
-
 export interface PagedResponse<T> {
 	data: T[];
 	page: number;
