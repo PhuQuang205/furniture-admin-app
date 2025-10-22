@@ -129,7 +129,7 @@ export const productService = {
 		const formData = new FormData();
 
 		formData.append(
-			"product",
+			"products",
 			new Blob([JSON.stringify(productData)], { type: "application/json" })
 		);
 
@@ -145,11 +145,13 @@ export const productService = {
 		return res.data;
 	},
 
+	// 🔄 Cập nhật trạng thái (PATCH)
 	async updateStatus(id: number, enabled: boolean) {
 		const res = await api.patch(`/products/${id}?enabled=${enabled}`);
 		return res.data;
 	},
 
+	// ❌ Xóa sản phẩm theo id
 	async delete(id: number) {
 		const res = await api.delete(`/products/${id}`);
 		return res.data;

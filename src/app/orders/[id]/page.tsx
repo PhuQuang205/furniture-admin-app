@@ -9,15 +9,26 @@ import {
 	BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
 import MasterLayout from "@/masterLayout/MasterLayout";
-import React, { useEffect, useState } from "react";
-import { OrderManagement } from "@/components/orders/OrderManagement";
+import { useParams } from "next/navigation";
+import { useOrders } from "@/hook/useOrder";
+import React, { useEffect } from "react";
+import { OrderDetail } from "@/components/orders/OrderDetail";
 
 type BreadcrumbItemType = {
 	label: string;
 	href?: string;
 };
 
-const OrderPage = () => {
+const OrderDetailPage = () => {
+	const { id } = useParams();
+	const { selectedOrder, fetchOrderById } = useOrders();
+
+	useEffect(() => {
+		if (id) {
+			fetchOrderById(Number(id));
+		}
+	}, [id, fetchOrderById]);
+
 	const breadcrumbs: BreadcrumbItemType[] = [
 		{
 			label: "Dashboard",
@@ -25,9 +36,12 @@ const OrderPage = () => {
 		},
 		{
 			label: "Quản lý đơn hàng",
+			href: "/orders",
+		},
+		{
+			label: `#${selectedOrder?.id}`,
 		},
 	];
-
 	return (
 		<>
 			<MasterLayout>
@@ -57,11 +71,11 @@ const OrderPage = () => {
 							</BreadcrumbList>
 						</Breadcrumb>
 					</div>
-					<OrderManagement />
+					{selectedOrder && <OrderDetail selectedOrder={selectedOrder} />}
 				</div>
 			</MasterLayout>
 		</>
 	);
 };
 
-export default OrderPage;
+export default OrderDetailPage;

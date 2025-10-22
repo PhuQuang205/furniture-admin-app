@@ -49,6 +49,10 @@ const DetailProduct = () => {
 		},
 		{
 			label: "Quản lý sản phẩm",
+			href:"/products"
+		},
+		{
+			label: `${product?.name}`,
 		},
 	];
 	return (
