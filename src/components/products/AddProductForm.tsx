@@ -38,7 +38,7 @@ const steps = [
 ];
 
 const AddProductForm = () => {
-	const { categories } = useCategories();
+	const { categoriesList } = useCategories();
 	const { createProduct } = useProducts();
 	const [currentStep, setCurrentStep] = useState(0);
 	const [formData, setFormData] = useState({
@@ -306,7 +306,7 @@ const AddProductForm = () => {
 								</SelectTrigger>
 
 								<SelectContent>
-									{categories.map((item) => (
+									{categoriesList.map((item) => (
 										<SelectItem key={item.id} value={String(item.id)}>
 											{item.name}
 										</SelectItem>

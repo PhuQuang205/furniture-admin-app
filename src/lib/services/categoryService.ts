@@ -32,7 +32,7 @@ export const categoryService = {
 		return res.data;
 	},
 	async getListCategories() {
-		const res = await api.get("/categories");
+		const res = await api.get("/categories?page=0&size=100&sortField=name&sortDir=asc");
 		return res.data;
 	},
 
