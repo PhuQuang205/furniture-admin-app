@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useRole } from "@/hook/useRole";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 interface SidebarProps {
 	isActive: boolean;
@@ -25,8 +26,10 @@ interface MenuGroup {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
+	const path = usePathname();
 	const [openMenu, setOpenMenu] = useState<string | null>(null);
 	const { hasRole } = useRole();
+
 	const menuGroups: MenuGroup[] = [
 		{
 			title: "TỔNG QUÁT",
@@ -74,6 +77,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 					label: "Quản lý phí ship",
 					icon: "lucide:store",
 					href: "/shippingfee",
+        },
+        {
+					label: "Quản lý Khách hàng",
+					icon: "lucide:circle-user-round",
+					href: "/customers",
 				},
 			],
 		},
@@ -90,6 +98,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 				isActive ? "w-64" : "w-20"
 			)}
 		>
+			{/* Logo */}
 			<div className="flex items-center gap-2 px-4 py-4 border-b">
 				<div className="size-10 rounded-full flex items-center justify-center">
 					<Image src="/logo.png" alt="logo" width={500} height={500} />
@@ -103,15 +112,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 			<nav className="flex-1 mt-4 space-y-6 overflow-y-auto">
 				{menuGroups.map((group) => (
 					<div key={group.title}>
-						{/* Nhóm title */}
+						{/* Tiêu đề nhóm */}
 						{isActive && (
 							<div className="px-4 text-xs font-semibold text-muted-foreground uppercase mb-2">
 								{group.title}
 							</div>
 						)}
 
-						{/* Các item */}
-						<div className="space-y-1">
+						{/* Các mục menu */}
+						<div className="space-y-4 mx-4">
 							{group.items.map((item) => (
 								<div key={item.label}>
 									{item.children ? (
@@ -119,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 											<button
 												onClick={() => handleToggle(item.label)}
 												className={cn(
-													"flex items-center w-full gap-3 px-4 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors",
+													"flex items-center w-full gap-3 px-4 py-2",
 													!isActive && "justify-center"
 												)}
 											>
@@ -141,7 +150,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 												)}
 											</button>
 
-											{/* Submenu animation */}
+											{/* Submenu */}
 											<div
 												className={cn(
 													"overflow-hidden transition-all duration-300 ease-in-out",
@@ -156,13 +165,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 															<Link
 																href={child.href}
 																className={cn(
-																	"flex items-center gap-2 text-sm py-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+																	"flex items-center gap-2 text-sm py-1.5 rounded-md transition-colors",
+																	path === child.href
+																		? "bg-primary/10 text-primary font-semibold"
+																		: "text-muted-foreground hover:text-foreground hover:bg-muted"
 																)}
 															>
 																<span
 																	className={cn(
 																		"w-2 h-2 rounded-full",
-																		child.color || "bg-primary"
+																		path === child.href
+																			? "bg-primary"
+																			: child.color || "bg-muted-foreground"
 																	)}
 																/>
 																<span>{child.label}</span>
@@ -176,11 +190,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 										<Link
 											href={item.href || "#"}
 											className={cn(
-												"flex items-center gap-3 px-4 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors",
+												"flex items-center gap-3 px-4 py-2 rounded-md text-sm transition-colors",
+												path === item.href
+													? "bg-primary/10 text-primary font-semibold"
+													: "text-muted-foreground hover:bg-muted hover:text-foreground",
 												!isActive && "justify-center"
 											)}
 										>
-											<Icon icon={item.icon} className="w-5 h-5" />
+											<Icon
+												icon={item.icon}
+												className={cn(
+													"w-5 h-5",
+													path === item.href
+														? "text-primary"
+														: "text-muted-foreground"
+												)}
+											/>
 											{isActive && <span>{item.label}</span>}
 										</Link>
 									)}

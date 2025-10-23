@@ -1,54 +1,54 @@
 "use client";
 
-import {useState} from "react";
-import {useInventories} from "@/hook/useInventories";
-import {SearchInput} from "@/components/SearchInput";
+import { useState } from "react";
+import { useInventories } from "@/hook/useInventories";
+import { SearchInput } from "@/components/SearchInput";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
 } from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import {Icon} from "@iconify/react";
 import ProductInventoryTable from "@/components/inventory/ProductInventoryTable";
 
 export const InventoryManagement = () => {
-    const [keyword] = useState("");
-    const [sortField, setSortField] = useState<string>("id");
-    const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+	const [keyword] = useState("");
+	const [sortField, setSortField] = useState<string>("id");
+	const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
-    const handleSearch = (kw: string)=> {
-        setPage(0);
-        refetch(0, kw);
-    }
+	const handleSearch = (kw: string) => {
+		setPage(0);
+		refetch(0, kw);
+	};
 
-    const handleSortChange = (field: string) => {
-        setPage(0);
-        setSortField(field);
-        refetch(0, keyword, field, sortDir);
-    };
+	const handleSortChange = (field: string) => {
+		setPage(0);
+		setSortField(field);
+		refetch(0, keyword, field, sortDir);
+	};
 
-    const toggleSortDir = () => {
-        const newDir = sortDir === "asc" ? "desc" : "asc";
-        setSortDir(newDir);
-        refetch(0, keyword, sortField, newDir);
-    };
+	const toggleSortDir = () => {
+		const newDir = sortDir === "asc" ? "desc" : "asc";
+		setSortDir(newDir);
+		refetch(0, keyword, sortField, newDir);
+	};
 
-    const {
-        inventories,
-        setInventories,
-        loading,
-        totalElements,
-        page,
-        totalPages,
-        size,
-        refetch,
-        setPage,
-    } = useInventories();
+	const {
+		inventories,
+		setInventories,
+		loading,
+		totalElements,
+		page,
+		totalPages,
+		size,
+		refetch,
+		setPage,
+	} = useInventories();
 
     return (
         <>
@@ -105,3 +105,54 @@ export const InventoryManagement = () => {
         </>
     )
 }
+	return (
+		<>
+			{/* Search and sort */}
+			<div className="flex justify-between items-center gap-4">
+				<div className="flex items-center gap-2 flex-1">
+					<SearchInput
+						placeholder="Search by name or email..."
+						onSearch={handleSearch}
+						initialValue={keyword}
+						className="flex-1"
+					/>
+					<Select value={sortField} onValueChange={handleSortChange}>
+						<SelectTrigger className="w-[120px]">
+							<SelectValue placeholder="Sort field" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectLabel>Fields</SelectLabel>
+								<SelectItem value="id">Product Id</SelectItem>
+								<SelectItem value="name">Product name</SelectItem>
+								<SelectItem value="quantity">Quantity</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+					<Button
+						onClick={toggleSortDir}
+						className="px-2 py-1 rounded border border-gray-300 hover:bg-gray-100"
+					>
+						{sortDir === "asc" ? (
+							<Icon icon="lucide:arrow-up" className="w-4 h-4" />
+						) : (
+							<Icon icon="lucide:arrow-down" className="w-4 h-4" />
+						)}
+					</Button>
+				</div>
+			</div>
+			{/* Table and Pagination */}
+			<ProductInventoryTable
+				inventories={inventories}
+				loading={loading}
+				size={size}
+				page={page}
+				totalPages={totalPages}
+				totalElements={totalElements}
+				onPageChange={setPage}
+				setInventories={setInventories}
+				refresh={refetch}
+			/>
+		</>
+	);
+};
