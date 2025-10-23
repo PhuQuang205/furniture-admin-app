@@ -13,19 +13,27 @@ export const useCategories = () => {
 	const [selectedCategory, setSelectedCategory] = useState<CategoryResponse>();
 	const [loading, setLoading] = useState(false);
 	const [page, setPage] = useState(0);
-	const [size] = useState(10);
+	const [size] = useState(5);
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
 	const [categoriesList,setCategoriesList] = useState<CategoryResponse[]>([]);
 
 	// 🟢 Lấy danh mục có phân trang
 	const fetchCategories = useCallback(
-		async (pageNum = page) => {
+		async (
+			pageNum = page,
+			keyword = "",
+			sortField = "id",
+			sortDir: "asc" | "desc" = "asc"
+		) => {
 			try {
 				setLoading(true);
 				const res: CategoryPageResponse = await categoryService.getAll(
 					pageNum,
-					size
+					size,
+					keyword,
+					sortField,
+					sortDir
 				);
 				setCategories(res.data);
 				setPage(res.page);
@@ -160,12 +168,12 @@ export const useCategories = () => {
 			setCategories((prev) => prev.filter((cat) => cat.id !== id));
 			console.log("✅ Xóa danh mục thành công");
 		} catch (error) {
-			console.error("❌ Failed to delete category:", error);			
+			console.error("❌ Failed to delete category:", error);
 		} finally {
 			setLoading(false);
 		}
 	}, []);
-	
+
 	useEffect(() => {
 		fetchCategories();
 		getAllCategories();

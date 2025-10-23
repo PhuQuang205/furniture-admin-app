@@ -7,7 +7,6 @@ export interface ProductInventory {
 	productId: number;
 	productName: string;
 	imageUrl: string;
-	// categoryName: string;
 	quantity: number;
 	lastUpdated: string | null;
 }
@@ -60,7 +59,6 @@ export const useInventories = () => {
 		[page, size]
 	);
 
-	// Khi page thay đổi thì tự fetch lại
 	useEffect(() => {
 		fetchInventories(page);
 	}, [page, fetchInventories]);

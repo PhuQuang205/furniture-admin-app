@@ -5,7 +5,11 @@ import "./globals.css";
 import { UserProvider } from "@/context/UserContext";
 import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+	variable: "--font-inter",
+	subsets: ["latin"],
+	weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
 	title: "WowDash Admin Dashboard",

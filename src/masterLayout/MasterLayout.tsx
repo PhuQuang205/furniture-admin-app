@@ -9,10 +9,7 @@ const MasterLayout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <section className="flex h-screen">
-            {/* Sidebar */}
             <Sidebar isActive={sidebarActive} />
-
-            {/* Main */}
             <main className="flex-1 flex flex-col">
                 <Navbar
                     onToggleSidebar={() => setSidebarActive(!sidebarActive)}

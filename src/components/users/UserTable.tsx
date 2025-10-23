@@ -28,6 +28,16 @@ interface UserTableProps {
 	setUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
+const TABLE_HEADERS = [
+	"ID",
+	"AVATAR",
+	"EMAIL",
+	"HỌ",
+	"TÊN",
+	"TRẠNG THÁI",
+	"VAI TRÒ",
+];
+
 export default function UserTable({
 	users,
 	loading,
@@ -42,22 +52,20 @@ export default function UserTable({
 	const route = useRouter();
 
 	const handleUpdate = (id: number) => {
-		route.push(`/users/${id}`)
-	}
+		route.push(`/users/${id}`);
+	};
 	return (
 		<div className="space-y-4">
 			<div className="border rounded-lg overflow-hidden">
 				<Table>
 					<TableHeader>
-						<TableRow>
-							<TableHead>ID</TableHead>
-							<TableHead>Avatar</TableHead>
-							<TableHead>Email</TableHead>
-							<TableHead>First name</TableHead>
-							<TableHead>Last name</TableHead>
-							<TableHead>Status</TableHead>
-							<TableHead>Roles</TableHead>
-							<TableHead className="text-right">Actions</TableHead>
+						<TableRow className="bg-yelly">
+							{TABLE_HEADERS.map((item, i) => (
+								<TableHead key={i} className="text-greenly font-bold">
+									{item}
+								</TableHead>
+							))}
+							<TableHead></TableHead>
 						</TableRow>
 					</TableHeader>
 
@@ -95,17 +103,16 @@ export default function UserTable({
 									<TableCell>{user.firstName}</TableCell>
 									<TableCell>{user.lastName}</TableCell>
 									<TableCell>
-										<Button
-											variant="outline"
+										<button
 											onClick={() => updateUserStatus(user.id, !user.enabled)}
-											className={`${
+											className={`w-20 rounded-full py-1 cursor-pointer ${
 												user.enabled
-													? "bg-blue-500 hover:bg-blue-600" // Disable: xám
-													: "bg-gray-400 hover:bg-gray-500" // Enable: xanh dương
+													? "text-green-700 bg-green-200 border border-green-500"
+													: "bg-gray-200 text-gray-500 border border-gray-500"
 											}`}
 										>
 											{user.enabled ? "Enabled" : "Disable"}
-										</Button>
+										</button>
 									</TableCell>
 
 									<TableCell>
@@ -119,21 +126,11 @@ export default function UserTable({
 											.join(", ")}
 									</TableCell>
 									<TableCell className="text-right flex justify-end gap-2">
-										{/* View button */}
 										<Button
-											variant="outline"
-											size="sm"
-											// onClick={() => onView(user.id)}
-											className="p-2"
+											className="cursor-pointer"
+											onClick={() => handleUpdate(user.id)}
 										>
-											<Icon
-												icon="lucide:eye"
-												className="size-4"
-												style={{ color: "oklch(54.6% 0.245 262.881)" }}
-											/>
-										</Button>
-										<Button className="cursor-pointer" onClick={() => handleUpdate(user.id)}>
-											<Edit className="size-5"/>
+											<Edit className="size-5" />
 											Edit
 										</Button>
 

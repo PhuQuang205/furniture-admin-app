@@ -12,9 +12,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import {Button} from "@/components/ui/button";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 import ProductInventoryTable from "@/components/inventory/ProductInventoryTable";
+import { cn } from "@/lib/utils";
 
 export const InventoryManagement = () => {
 	const [keyword] = useState("");
@@ -50,64 +50,8 @@ export const InventoryManagement = () => {
 		setPage,
 	} = useInventories();
 
-    return (
-        <>
-            <div className="flex justify-between items-center gap-4">
-                <div className="flex items-center gap-2 flex-1">
-                    <SearchInput
-                        placeholder="Search by name or email..."
-                        onSearch={handleSearch}
-                        initialValue={keyword}
-                        className="flex-1"
-                    />
-                    <Select value={sortField} onValueChange={handleSortChange}>
-                        <SelectTrigger className="w-[120px]">
-                            <SelectValue placeholder="Sort field" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Fields</SelectLabel>
-                                <SelectItem value="id">Id</SelectItem>
-                                <SelectItem value="fee">Fee</SelectItem>
-                                <SelectItem value="Day">Day</SelectItem>
-                                {/*<SelectItem value="createdAt">Created At</SelectItem>*/}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <Button
-                        onClick={toggleSortDir}
-                        className="px-2 py-1 rounded border border-gray-300 hover:bg-gray-100"
-                    >
-                        {sortDir === "asc" ? (
-                            <Icon icon="lucide:arrow-up" className="w-4 h-4" />
-                        ) : (
-                            <Icon icon="lucide:arrow-down" className="w-4 h-4" />
-                        )}
-                    </Button>
-                </div>
-                {/*<AddUserModal*/}
-                {/*    onCreate={(newUser) => {*/}
-                {/*        setUsers((prev: User[]) => [newUser, ...prev]);*/}
-                {/*    }}*/}
-                {/*/>*/}
-            </div>
-            <ProductInventoryTable
-                inventories={inventories}
-                loading={loading}
-                size={size}
-                page={page}
-                totalPages={totalPages}
-                totalElements={totalElements}
-                onPageChange={setPage}
-                setInventories={setInventories}
-                refresh={refetch}
-            />
-        </>
-    )
-}
 	return (
 		<>
-			{/* Search and sort */}
 			<div className="flex justify-between items-center gap-4">
 				<div className="flex items-center gap-2 flex-1">
 					<SearchInput
@@ -117,31 +61,29 @@ export const InventoryManagement = () => {
 						className="flex-1"
 					/>
 					<Select value={sortField} onValueChange={handleSortChange}>
-						<SelectTrigger className="w-[120px]">
+						<SelectTrigger className="w-[140px] rounded-full border-gray-300 py-1">
 							<SelectValue placeholder="Sort field" />
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
 								<SelectLabel>Fields</SelectLabel>
-								<SelectItem value="id">Product Id</SelectItem>
-								<SelectItem value="name">Product name</SelectItem>
-								<SelectItem value="quantity">Quantity</SelectItem>
+								<SelectItem value="id">Id</SelectItem>
+								<SelectItem value="fee">Fee</SelectItem>
+								<SelectItem value="Day">Day</SelectItem>
 							</SelectGroup>
 						</SelectContent>
 					</Select>
-					<Button
+					<button
 						onClick={toggleSortDir}
-						className="px-2 py-1 rounded border border-gray-300 hover:bg-gray-100"
-					>
-						{sortDir === "asc" ? (
-							<Icon icon="lucide:arrow-up" className="w-4 h-4" />
-						) : (
-							<Icon icon="lucide:arrow-down" className="w-4 h-4" />
+						className={cn(
+							"size-7 cursor-pointer bg-transparent border border-gray-300 rounded-full flex items-center justify-center transition-all duration-300",
+							sortDir === "asc" ? "rotate-180" : ""
 						)}
-					</Button>
+					>
+						<Icon icon="lucide:arrow-up" className="size-5 text-gray-700" />
+					</button>
 				</div>
 			</div>
-			{/* Table and Pagination */}
 			<ProductInventoryTable
 				inventories={inventories}
 				loading={loading}
