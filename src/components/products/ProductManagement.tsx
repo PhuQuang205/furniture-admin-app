@@ -16,6 +16,8 @@ import { Icon } from "@iconify/react";
 import { useProducts } from "@/hook/useProduct";
 import { useRouter } from "next/navigation";
 import { ProductTable } from "@/components/products/ProductTable";
+import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
 
 export const ProductManagement = () => {
 	const router = useRouter();
@@ -29,30 +31,25 @@ export const ProductManagement = () => {
 		totalPages,
 		size,
 		refesh,
-		updateStatus
+		updateStatus,
 	} = useProducts();
-	console.log(products)
-	console.log("totalPages", totalPages)
+	
 	const [sortField, setSortField] = useState<string>("name");
 	const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 	const [keyword, setKeyword] = useState("");
 
-	// 🔍 Xử lý tìm kiếm sản phẩm
 	const handleSearch = (value: string) => {
 		setKeyword(value);
 		refesh(0, value);
 	};
 
-	// 🔄 Đổi cột sắp xếp
 	const handleSortChange = (value: string) => {
 		setPage(0);
 		setSortField(value);
 		refesh(0, keyword, value, sortDir);
 	};
 
-	// ↕️ Đổi hướng sắp xếp
 	const toggleSortDir = () => {
-		// setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
 		const newDir = sortDir === "asc" ? "desc" : "asc";
 		setSortDir(newDir);
 		refesh(0, keyword, sortField, newDir);
@@ -74,7 +71,7 @@ export const ProductManagement = () => {
 					/>
 
 					<Select value={sortField} onValueChange={handleSortChange}>
-						<SelectTrigger className="w-[160px]">
+						<SelectTrigger className="w-[140px] rounded-full border-gray-300 py-1">
 							<SelectValue placeholder="Sắp xếp theo" />
 						</SelectTrigger>
 						<SelectContent>
@@ -88,34 +85,29 @@ export const ProductManagement = () => {
 						</SelectContent>
 					</Select>
 
-					<Button
+					<button
 						onClick={toggleSortDir}
-						className="group size-10 bg-greenly hover:bg-yelly cursor-pointer rounded-full flex items-center justify-center transition-all duration-300"
-					>
-						{sortDir === "asc" ? (
-							<Icon
-								icon="lucide:arrow-up"
-								className="size-5 text-white group-hover:text-black"
-							/>
-						) : (
-							<Icon
-								icon="lucide:arrow-down"
-								className="size-5 text-white group-hover:text-black"
-							/>
+						className={cn(
+							"size-7 cursor-pointer bg-transparent border border-gray-300 rounded-full flex items-center justify-center transition-all duration-300",
+							sortDir === "asc" ? "rotate-180" : ""
 						)}
-					</Button>
+					>
+						<Icon
+							icon="lucide:arrow-up"
+							className="size-5 text-gray-700"
+						/>
+					</button>
 				</div>
 
-				<Button
+				<button
 					onClick={() => router.push("/products/add")}
-					className="bg-greenly hover:bg-yelly text-white flex items-center gap-2 rounded-full px-4 py-2 transition-all duration-300"
+					className="bg-transparent flex items-center gap-1.5 h-9 border border-gray-300 rounded-full px-2 py-1 text-gray-700 cursor-pointer"
 				>
-					<Icon icon="lucide:plus" className="size-5" />
-					Thêm sản phẩm
-				</Button>
+					<Plus className="size-4" />
+					<p className="text-sm">Thêm sản phẩm</p>
+				</button>
 			</div>
 
-			<h2>Danh sách sản phẩm</h2>
 			<ProductTable
 				products={products}
 				loading={loading}
@@ -127,11 +119,10 @@ export const ProductManagement = () => {
 				<div className="flex items-center justify-between mt-6">
 					<div className="text-sm text-gray-600">
 						Hiển thị từ {page * size + 1} đến{" "}
-						{Math.min((page + 1) * size, totalElements)} trong tổng số {totalElements}{" "}
-						mục
+						{Math.min((page + 1) * size, totalElements)} trong tổng số{" "}
+						{totalElements} mục
 					</div>
 					<div className="flex items-center gap-1">
-						{/* Về trang đầu */}
 						<Button
 							variant="ghost"
 							size="icon"
@@ -141,8 +132,6 @@ export const ProductManagement = () => {
 						>
 							<Icon icon="lucide:chevrons-left" className="w-4 h-4" />
 						</Button>
-
-						{/* Trang trước */}
 						<Button
 							variant="ghost"
 							size="icon"
@@ -153,7 +142,6 @@ export const ProductManagement = () => {
 							<Icon icon="lucide:chevron-left" className="w-4 h-4" />
 						</Button>
 
-						{/* Các số trang */}
 						{Array.from({ length: totalPages }, (_, i) => (
 							<Button
 								key={i}
@@ -170,7 +158,6 @@ export const ProductManagement = () => {
 							</Button>
 						))}
 
-						{/* Trang sau */}
 						<Button
 							variant="ghost"
 							size="icon"
@@ -181,7 +168,6 @@ export const ProductManagement = () => {
 							<Icon icon="lucide:chevron-right" className="w-4 h-4" />
 						</Button>
 
-						{/* Tới trang cuối */}
 						<Button
 							variant="ghost"
 							size="icon"

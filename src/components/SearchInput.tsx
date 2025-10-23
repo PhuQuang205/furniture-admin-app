@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 
 interface SearchInputProps {
@@ -27,28 +26,29 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 	};
 
 	return (
-		<div className={`flex items-center gap-2 w-full max-w-xs ${className}`}>
-			<div className="relative w-full">
-				<Icon
-					icon="lucide:search"
-					className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4"
-				/>
+		<div className={`flex items-center gap-2 rounded-full overflow-hidden w-full max-w-xs border border-gray-300 ${className}`}>
+			<div className="w-[500px]">				
 				<Input
 					type="text"
 					placeholder={placeholder}
 					value={keyword}
 					onChange={(e) => setKeyword(e.target.value)}
 					onKeyDown={handleKeyDown}
-					className="pl-9 pr-3 py-2 border border-gray-300 rounded-lg w-full text-sm focus-visible:border-gray-300 focus-visible:ring-0 focus-visible:outline-none"
+					className="border-none"
 				/>
 			</div>
 
-			<Button
-				onClick={handleSearch}
-				className="bg-greenly hover:bg-yelly text-white hover:text-black cursor-pointer px-4 py-2 rounded-lg transition-all duration-300"
-			>
-				Tìm kiếm
-			</Button>
+			<div className="border-l">
+				<button
+					onClick={handleSearch}
+					className="text-gray-700 cursor-pointer px-4 py-2 rounded-lg transition-all duration-300"
+				>
+					<Icon
+						icon="lucide:search"
+						className="size-5"
+					/>
+				</button>
+			</div>
 		</div>
 	);
 };

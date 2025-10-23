@@ -25,10 +25,25 @@ export interface CategoryRequest {
 }
 
 export const categoryService = {
-	async getAll(page: number = 0, size: number = 10) {
-		const res = await api.get(`/categories`, {
-			params: { page, size },
+	async getAll(
+		page: number = 0,
+		size: number = 10,
+		keyword: string = "",
+		sortField = "id",
+		sortDir = "asc"
+	) {
+		const params = new URLSearchParams({
+			page: String(page),
+			size: String(size),
+			sortField,
+			sortDir,
 		});
+
+		if (keyword.trim() !== "") {
+			params.append("keyword", keyword.trim());
+		}
+
+		const res = await api.get(`/categories?${params.toString()}`);
 		return res.data;
 	},
 	async getListCategories() {

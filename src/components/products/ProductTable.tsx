@@ -15,11 +15,18 @@ import { useRouter } from "next/navigation";
 import { ProductResponse } from "@/lib/services/productService";
 
 interface ProductTableProps {
-	products: ProductResponse[]; 
+	products: ProductResponse[];
 	loading: boolean;
 	updateStatus?: (id: number, enabled: boolean) => Promise<void>;
 	onDelete?: (id: number) => void;
 }
+const TABLE_HEADERS = [
+	"HÌNH ẢNH",
+	"TÊN SẢN PHẨM",
+	"DANH MỤC",
+	"GIÁ",
+	"TRẠNG THÁI",
+];
 
 export const ProductTable = ({
 	products,
@@ -29,20 +36,22 @@ export const ProductTable = ({
 }: ProductTableProps) => {
 	const router = useRouter();
 
-console.log("List danh sách sản phẩm: ", products)
-console.log(updateStatus)
+	console.log("List danh sách sản phẩm: ", products);
+	console.log(updateStatus);
 	return (
 		<div className="border rounded-lg overflow-hidden">
 			<Table>
 				<TableHeader>
 					<TableRow className="rounded-3xl bg-yelly">
-						<TableHead className="w-[60px]">ID</TableHead>
-						<TableHead>Hình ảnh</TableHead>
-						<TableHead>Tên sản phẩm</TableHead>
-						<TableHead>Danh mục</TableHead>
-						<TableHead>Giá</TableHead>
-						<TableHead>Trạng thái</TableHead>
-						<TableHead className="text-right"></TableHead>
+						<TableHead className="w-[30px] text-greenly font-bold">
+							ID
+						</TableHead>
+						{TABLE_HEADERS.map((item, i) => (
+							<TableHead key={i} className="text-greenly font-bold">
+								{item}
+							</TableHead>
+						))}
+						<TableHead></TableHead>
 					</TableRow>
 				</TableHeader>
 
@@ -80,9 +89,7 @@ console.log(updateStatus)
 
 								<TableCell className="font-medium">{prod.name}</TableCell>
 								<TableCell>{prod.category.name}</TableCell>
-								<TableCell>
-									{prod.price?.toLocaleString("vi-VN")} ₫
-								</TableCell>
+								<TableCell>{prod.price?.toLocaleString("vi-VN")} ₫</TableCell>
 
 								<TableCell>
 									{updateStatus && (

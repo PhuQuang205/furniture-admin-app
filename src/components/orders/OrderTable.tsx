@@ -23,6 +23,17 @@ interface OrderTableProps {
 	loading: boolean;
 }
 
+const TABLE_HEADERS = [
+	"KHÁCH HÀNG",
+	"EMAIL",
+	"SĐT",
+	"ĐỊA CHỈ",
+	"TỔNG TIỀN",
+	"NGÀY ĐẶT",
+	"THANH TOÁN",
+	"TRẠNG THÁI",
+];
+
 export const OrderTable = ({ orders, loading }: OrderTableProps) => {
 	const router = useRouter();
 	const { approveReturn, rejectReturn, updateOrderStatus } = useOrders();
@@ -83,16 +94,11 @@ export const OrderTable = ({ orders, loading }: OrderTableProps) => {
 			<Table>
 				<TableHeader>
 					<TableRow className="bg-yelly rounded-3xl">
-						<TableHead className="w-[60px]">ID</TableHead>
-						<TableHead>Khách hàng</TableHead>
-						<TableHead>Email</TableHead>
-						<TableHead>SĐT</TableHead>
-						<TableHead>Địa chỉ</TableHead>
-						<TableHead>Tổng tiền</TableHead>
-						<TableHead>Ngày đặt</TableHead>
-						<TableHead>Thanh toán</TableHead>
-						<TableHead>Trạng thái</TableHead>
-						<TableHead className="text-right">Hành động</TableHead>
+						<TableHead className="w-[30px] text-greenly font-bold">ID</TableHead>
+						{TABLE_HEADERS.map((item, i) => (
+							<TableHead key={i} className="text-greenly font-bold">{item}</TableHead>
+						))}
+						<TableHead></TableHead>
 					</TableRow>
 				</TableHeader>
 
@@ -180,9 +186,13 @@ export const OrderTable = ({ orders, loading }: OrderTableProps) => {
 									)}
 
 									{/* 🚚 Cập nhật luồng giao hàng */}
-									{["NEW", "PROCESSING", "PACKAGED", "PICKED", "SHIPPING"].includes(
-										order.status
-									) && (
+									{[
+										"NEW",
+										"PROCESSING",
+										"PACKAGED",
+										"PICKED",
+										"SHIPPING",
+									].includes(order.status) && (
 										<Button
 											variant="outline"
 											size="sm"

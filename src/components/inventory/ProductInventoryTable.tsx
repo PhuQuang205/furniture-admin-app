@@ -27,6 +27,14 @@ interface ProductInventoryTableProps {
 	refresh: () => void;
 }
 
+const HEADER_TABLE = [
+	"ID SẢN PHẨM",
+	"ẢNH",
+	"TÊN SẢN PHẨM",
+	"SỐ LƯỢNG",
+	"NGÀY CẬP NHẬT CUỐI CÙNG",
+];
+
 export default function ProductInventoryTable({
 	inventories,
 	loading,
@@ -43,14 +51,13 @@ export default function ProductInventoryTable({
 				<div className="border rounded-lg overflow-hidden">
 					<Table>
 						<TableHeader>
-							<TableRow>
-								<TableHead>Product ID</TableHead>
-								<TableHead>Image</TableHead>
-								<TableHead>Product Name</TableHead>
-								{/*<TableHead>Category</TableHead>*/}
-								<TableHead>Quantity</TableHead>
-								<TableHead>Last Updated</TableHead>
-								<TableHead className="text-right">Actions</TableHead>
+							<TableRow className="bg-yelly">
+								{HEADER_TABLE.map((item, index) => (
+									<TableHead key={index} className="text-greenly font-bold">
+										{item}
+									</TableHead>
+								))}
+								<TableHead></TableHead>
 							</TableRow>
 						</TableHeader>
 

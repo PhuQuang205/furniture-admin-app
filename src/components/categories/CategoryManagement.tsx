@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 import { SearchInput } from "@/components/SearchInput";
 import {
@@ -17,6 +16,8 @@ import { useCategories } from "@/hook/useCategories";
 import { CategoryResponse } from "@/lib/services/categoryService";
 import { CategoryTable } from "@/components/categories/CategoryTable";
 import { AddCategory } from "@/components/categories/AddCategory";
+import { PaginationFooter } from "@/components/PaginationFooter";
+import { cn } from "@/lib/utils";
 
 export const CategoryManagement = () => {
 	const [keyword, setKeyword] = useState("");
@@ -29,6 +30,7 @@ export const CategoryManagement = () => {
 		loading,
 		page,
 		size,
+		setPage,
 		totalElements,
 		totalPages,
 		fetchCategories,
@@ -36,12 +38,10 @@ export const CategoryManagement = () => {
 		deleteCategory,
 	} = useCategories();
 
-	// 🟢 Load danh mục khi mount
 	useEffect(() => {
 		fetchCategories(0);
 	}, [fetchCategories]);
 
-	// 🔍 Tìm kiếm client-side
 	const handleSearch = (kw: string) => {
 		setKeyword(kw);
 
@@ -55,20 +55,17 @@ export const CategoryManagement = () => {
 		}
 	};
 
-	// 🔽 Thay đổi trường sắp xếp
 	const handleSortChange = (field: string) => {
 		setSortField(field);
 		sortCategories(field, sortDir);
 	};
 
-	// 🔄 Đổi chiều sắp xếp
 	const toggleSortDir = () => {
 		const newDir = sortDir === "asc" ? "desc" : "asc";
 		setSortDir(newDir);
 		sortCategories(sortField, newDir);
 	};
 
-	// ⚙️ Hàm sắp xếp client-side
 	const sortCategories = (field: string, dir: "asc" | "desc") => {
 		const sorted = [...categories].sort((a, b) => {
 			const valA = a[field as keyof CategoryResponse];
@@ -105,17 +102,16 @@ export const CategoryManagement = () => {
 
 	return (
 		<>
-			<div className="flex justify-between items-center gap-4 mb-4">
+			<div className="flex justify-between items-center gap-4">
 				<div className="flex items-center justify-between w-full">
 					<div className="flex items-center gap-2">
 						<SearchInput
 							placeholder="Tìm kiếm danh mục..."
 							onSearch={handleSearch}
 							initialValue={keyword}
-							className="flex-1"
 						/>
 						<Select value={sortField} onValueChange={handleSortChange}>
-							<SelectTrigger className="w-[140px]">
+							<SelectTrigger className="w-[140px] rounded-full border-gray-300 py-1">
 								<SelectValue placeholder="Sắp xếp theo" />
 							</SelectTrigger>
 							<SelectContent>
@@ -126,22 +122,15 @@ export const CategoryManagement = () => {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-						<Button
+						<button
 							onClick={toggleSortDir}
-							className="group size-10 bg-greenly hover:bg-yelly cursor-pointer rounded-full flex items-center justify-center transition-all duration-300"
-						>
-							{sortDir === "asc" ? (
-								<Icon
-									icon="lucide:arrow-up"
-									className="size-5 text-white group-hover:text-black"
-								/>
-							) : (
-								<Icon
-									icon="lucide:arrow-down"
-									className="size-5 text-white group-hover:text-black"
-								/>
+							className={cn(
+								"size-7 cursor-pointer bg-transparent border border-gray-300 rounded-full flex items-center justify-center transition-all duration-300",
+								sortDir === "asc" ? "rotate-180" : ""
 							)}
-						</Button>
+						>
+							<Icon icon="lucide:arrow-up" className="size-5 text-gray-700" />
+						</button>
 					</div>
 					<AddCategory
 						onCreate={(newCategory) =>
@@ -153,15 +142,23 @@ export const CategoryManagement = () => {
 					/>
 				</div>
 			</div>
-
-			<h2 className="font-semibold mb-2">Danh sách danh mục</h2>
-
 			<CategoryTable
 				categoriesPage={categoryPage}
 				loading={loading}
 				updateStatus={updateStatus}
 				onPageChange={handlePageChange}
 				onDelete={handleDelete}
+			/>
+			<PaginationFooter
+				onPageChange={(newPage) => {
+					setPage(newPage);
+					fetchCategories(newPage, keyword, sortField, sortDir);
+				}}
+				label="danh mục"
+				page={page}
+				size={size}
+				totalElements={totalElements}
+				totalPages={totalPages}
 			/>
 		</>
 	);

@@ -9,12 +9,12 @@ import {
 	SelectItem,
 	SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { CustomerTable } from "@/components/customers/CustomerTable";
 import { PaginationFooter } from "@/components/PaginationFooter";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const CustomerManagement = () => {
 	const {
@@ -27,25 +27,21 @@ export const CustomerManagement = () => {
 		totalElements,
 		fetchCustomers,
 	} = useCustomers();
-    console.log(customers)
 	const [keyword, setKeyword] = useState("");
 	const [sortField, setSortField] = useState("id");
 	const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
-	// 🔍 Tìm kiếm
 	const handleSearch = (kw: string) => {
 		setKeyword(kw);
 		setPage(0);
 		fetchCustomers(0, kw, sortField, sortDir);
 	};
 
-	// ↕️ Thay đổi trường sắp xếp
 	const handleSortChange = (field: string) => {
 		setSortField(field);
 		fetchCustomers(page, keyword, field, sortDir);
 	};
 
-	// 🔄 Đổi hướng sắp xếp
 	const toggleSortDir = () => {
 		const newDir = sortDir === "asc" ? "desc" : "asc";
 		setSortDir(newDir);
@@ -54,18 +50,16 @@ export const CustomerManagement = () => {
 
 	return (
 		<>
-			{/* 🔍 Search + Sort */}
 			<div className="flex justify-between items-center gap-4 mb-4">
 				<div className="flex items-center gap-2 flex-1">
 					<SearchInput
 						placeholder="Tìm kiếm theo tên hoặc email..."
 						onSearch={handleSearch}
 						initialValue={keyword}
-						className="flex-1"
 					/>
 
 					<Select value={sortField} onValueChange={handleSortChange}>
-						<SelectTrigger className="w-[150px]">
+						<SelectTrigger className="w-[140px] rounded-full border-gray-300 py-1">
 							<SelectValue placeholder="Sắp xếp theo" />
 						</SelectTrigger>
 						<SelectContent>
@@ -75,16 +69,18 @@ export const CustomerManagement = () => {
 						</SelectContent>
 					</Select>
 
-					<Button onClick={toggleSortDir} className="px-2 py-1">
-						<Icon
-							icon={sortDir === "asc" ? "lucide:arrow-up" : "lucide:arrow-down"}
-							className="w-4 h-4"
-						/>
-					</Button>
+					<button
+						onClick={toggleSortDir}
+						className={cn(
+							"size-7 cursor-pointer bg-transparent border border-gray-300 rounded-full flex items-center justify-center transition-all duration-300",
+							sortDir === "asc" ? "rotate-180" : ""
+						)}
+					>
+						<Icon icon="lucide:arrow-up" className="size-5 text-gray-700" />
+					</button>
 				</div>
 			</div>
 
-			{/* 🧾 Bảng khách hàng */}
 			{loading ? (
 				<div className="flex items-center justify-center py-10 text-gray-500">
 					<Loader2 className="animate-spin w-5 h-5 mr-2" />
@@ -94,7 +90,6 @@ export const CustomerManagement = () => {
 				<CustomerTable customers={customers} loading={loading} />
 			)}
 
-			{/* 📄 Phân trang */}
 			<PaginationFooter
 				page={page}
 				size={size}

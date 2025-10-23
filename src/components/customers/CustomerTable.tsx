@@ -19,6 +19,15 @@ interface CustomerTableProps {
 	loading: boolean;
 }
 
+const TABLE_HEADERS = [
+	"ẢNH ĐẠI DIỆN",
+	"HỌ VÀ TÊN",
+	"EMAIL",
+	"SỐ ĐIỆN THOẠI",
+	"XÁC THỰC",
+	"TRẠNG THÁI",
+];
+
 export const CustomerTable = ({ customers, loading }: CustomerTableProps) => {
 	const { updateCustomerStatus } = useCustomers();
 
@@ -26,19 +35,19 @@ export const CustomerTable = ({ customers, loading }: CustomerTableProps) => {
 		<div className="border rounded-lg overflow-hidden">
 			<Table>
 				<TableHeader>
-					<TableRow className="bg-yelly rounded-3xl">
-						<TableHead className="w-[60px] text-center">ID</TableHead>
-						<TableHead>Ảnh đại diện</TableHead>
-						<TableHead>Họ và tên</TableHead>
-						<TableHead>Email</TableHead>
-						<TableHead>Số điện thoại</TableHead>
-						<TableHead>Xác thực</TableHead>
-						<TableHead>Trạng thái</TableHead>
+					<TableRow className="bg-yelly">
+						<TableHead className="w-[60px] text-center text-greenly font-bold">
+							ID
+						</TableHead>
+						{TABLE_HEADERS.map((item, i) => (
+							<TableHead key={i} className="text-greenly font-bold">
+								{item}
+							</TableHead>
+						))}
 					</TableRow>
 				</TableHeader>
 
 				<TableBody>
-					{/* 🌀 Loading */}
 					{loading ? (
 						<TableRow>
 							<TableCell colSpan={7} className="text-center py-6">
@@ -79,7 +88,9 @@ export const CustomerTable = ({ customers, loading }: CustomerTableProps) => {
 
 								<TableCell>
 									{c.verified ? (
-										<span className="text-green-600 font-medium">Đã xác thực</span>
+										<span className="text-green-600 font-medium">
+											Đã xác thực
+										</span>
 									) : (
 										<span className="text-gray-500 italic">Chưa xác thực</span>
 									)}
