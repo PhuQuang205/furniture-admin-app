@@ -14,9 +14,6 @@ import {
 } from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import {Icon} from "@iconify/react";
-import {AddUserModal} from "@/components/users/AddUserModal";
-import {User} from "@/components/types";
-import UserTable from "@/components/users/UserTable";
 import ProductInventoryTable from "@/components/inventory/ProductInventoryTable";
 
 export const InventoryManagement = () => {
@@ -70,9 +67,9 @@ export const InventoryManagement = () => {
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Fields</SelectLabel>
-                                <SelectItem value="id">Product Id</SelectItem>
-                                <SelectItem value="name">Product name</SelectItem>
-                                <SelectItem value="quantity">Quantity</SelectItem>
+                                <SelectItem value="id">Id</SelectItem>
+                                <SelectItem value="fee">Fee</SelectItem>
+                                <SelectItem value="Day">Day</SelectItem>
                                 {/*<SelectItem value="createdAt">Created At</SelectItem>*/}
                             </SelectGroup>
                         </SelectContent>
@@ -105,18 +102,6 @@ export const InventoryManagement = () => {
                 setInventories={setInventories}
                 refresh={refetch}
             />
-            {/*<UserTable*/}
-            {/*    users={users}*/}
-            {/*    loading={loading}*/}
-            {/*    size={size}*/}
-            {/*    page={page}*/}
-            {/*    totalPages={totalPages}*/}
-            {/*    totalElements={totalElements}*/}
-            {/*    updateUserStatus={updateUserStatus}*/}
-            {/*    deleteUser={deleteUser}*/}
-            {/*    onPageChange={setPage}*/}
-            {/*    setUsers={setUsers}*/}
-            {/*/>        */}
         </>
     )
 }

@@ -40,3 +40,10 @@ export interface UserRequest {
     enabled: boolean;
     roleIds: number[];
 }
+
+export interface ShippingFeeFormData{
+    provinceCode: number;
+    provinceName?: string;
+    fee: number;
+    day: number;
+}

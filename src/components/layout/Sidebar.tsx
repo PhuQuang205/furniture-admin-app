@@ -70,6 +70,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isActive }) => {
 					icon: "lucide:store",
 					href: "/inventory",
 				},
+				{
+					label: "Quản lý phí ship",
+					icon: "lucide:store",
+					href: "/shippingfee",
+				},
 			],
 		},
 	];
