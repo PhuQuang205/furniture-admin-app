@@ -168,31 +168,6 @@ export const CategoryTable = ({
 					)}
 				</TableBody>
 			</Table>
-
-			{/* Pagination */}
-			{!loading && totalPages > 1 && (
-				<div className="flex justify-between items-center p-4 border-t bg-gray-50">
-					<Button
-						variant="outline"
-						disabled={page === 0}
-						onClick={() => onPageChange?.(page - 1)}
-					>
-						← Trước
-					</Button>
-
-					<p>
-						Trang <b>{page + 1}</b> / {totalPages}
-					</p>
-
-					<Button
-						variant="outline"
-						disabled={page + 1 >= totalPages}
-						onClick={() => onPageChange?.(page + 1)}
-					>
-						Tiếp →
-					</Button>
-				</div>
-			)}
 		</div>
 	);
 };
