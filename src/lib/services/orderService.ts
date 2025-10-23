@@ -78,10 +78,26 @@ export interface OrderStatusRequest {
 	notes?: string;
 }
 
-export const orderService = {
-	// 🟢 Lấy danh sách đơn hàng (GET /orders) - có phân trang
-	async getAll(page: number = 0, size: number = 10) {
-		const res = await api.get(`/orders`, { params: { page, size } });
+export const orderService = {	
+	async getAll(
+		page: number = 0,
+		size: number = 10,
+		keyword = "",
+		sortField: string = "id",
+		sortDir = "asc"
+	) {
+		const params = new URLSearchParams({
+			page: String(page),
+			size: String(size),
+			sortField,
+			sortDir,
+		});
+
+		if (keyword.trim() !== "") {
+			params.append("keyword", keyword.trim());
+		}
+
+		const res = await api.get(`/orders?${params.toString()}`);
 		return res.data as OrderPageResponse;
 	},
 

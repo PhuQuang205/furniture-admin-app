@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
 	orderService,
 	OrderResponse,
@@ -10,20 +10,41 @@ import {
 export const useOrders = () => {
 	const [orders, setOrders] = useState<OrderResponse[]>([]);
 	const [selectedOrder, setSelectedOrder] = useState<OrderResponse>();
+	const [page, setPage] = useState(0);
+	const [size] = useState(12);
+	const [totalPages, setTotalPages] = useState(0);
+	const [totalElements, setTotalElements] = useState(0);
 	const [loading, setLoading] = useState(false);
 
 	// 🟢 Lấy danh sách đơn hàng có phân trang
-	const fetchOrders = useCallback(async (page: number = 0, size: number = 10) => {
-		try {
-			setLoading(true);
-			const res = await orderService.getAll(page, size);
-			setOrders(res.data);
-		} catch (error) {
-			console.error("❌ Failed to fetch orders:", error);
-		} finally {
-			setLoading(false);
-		}
-	}, []);
+	const fetchOrders = useCallback(
+		async (
+			pageNum = page,
+			search?: string,
+			sortField: string = "id",
+			sortDir: "asc" | "desc" = "asc"
+		) => {
+			try {
+				setLoading(true);
+				const res = await orderService.getAll(
+					pageNum,
+					size,
+					search ?? "",
+					sortField,
+					sortDir
+				);
+				setOrders(res.data);
+				setPage(res.page);
+				setTotalPages(res.totalPages);
+				setTotalElements(res.totalElements);
+			} catch (error) {
+				console.error("❌ Failed to fetch orders:", error);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[page, size]
+	);
 
 	// 🟢 Lấy toàn bộ danh sách đơn hàng (không phân trang)
 	const fetchAllOrders = useCallback(async () => {
@@ -70,32 +91,42 @@ export const useOrders = () => {
 	);
 
 	// 🟢 Chấp nhận hoàn đơn
-	const approveReturn = useCallback(async (id: number) => {
-		try {
-			setLoading(true);
-			await orderService.approveReturn(id);
-			console.log("✅ Đã chấp nhận hoàn đơn!");
-			await fetchOrders();
-		} catch (error) {
-			console.error("❌ Failed to approve return:", error);
-		} finally {
-			setLoading(false);
-		}
-	}, [fetchOrders]);
+	const approveReturn = useCallback(
+		async (id: number) => {
+			try {
+				setLoading(true);
+				await orderService.approveReturn(id);
+				console.log("✅ Đã chấp nhận hoàn đơn!");
+				await fetchOrders();
+			} catch (error) {
+				console.error("❌ Failed to approve return:", error);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[fetchOrders]
+	);
 
 	// 🔴 Từ chối hoàn đơn
-	const rejectReturn = useCallback(async (id: number) => {
-		try {
-			setLoading(true);
-			await orderService.rejectReturn(id);
-			console.log("✅ Đã từ chối hoàn đơn!");
-			await fetchOrders();
-		} catch (error) {
-			console.error("❌ Failed to reject return:", error);
-		} finally {
-			setLoading(false);
-		}
-	}, [fetchOrders]);
+	const rejectReturn = useCallback(
+		async (id: number) => {
+			try {
+				setLoading(true);
+				await orderService.rejectReturn(id);
+				console.log("✅ Đã từ chối hoàn đơn!");
+				await fetchOrders();
+			} catch (error) {
+				console.error("❌ Failed to reject return:", error);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[fetchOrders]
+	);
+
+	useEffect(() => {
+		fetchOrders(page);
+	}, [page, fetchOrders]);
 
 	return {
 		orders,
@@ -107,5 +138,12 @@ export const useOrders = () => {
 		updateOrderStatus,
 		approveReturn,
 		rejectReturn,
+		setOrders,
+		setPage,
+		page,
+		totalElements,
+		totalPages,
+		size,
+		refesh: fetchOrders,
 	};
 };

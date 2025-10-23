@@ -2,7 +2,7 @@ import api from "@/lib/axios";
 
 // 🧱 Mô tả chi tiết sản phẩm
 export interface ProductDetail {
-	id?: number
+	id?: number;
 	name: string;
 	value: string;
 }
@@ -38,7 +38,7 @@ export interface ProductResponse {
 		image?: string;
 		enabled: boolean;
 	};
-	images: ProductImage[],
+	images: ProductImage[];
 	mainImage?: ProductImage;
 	details: ProductDetail[];
 }
@@ -53,47 +53,79 @@ export interface ProductPageResponse {
 }
 
 export interface ProductRequest {
-  id: number;
-  name: string;
-  alias: string;
-  shortDescription: string;
-  fullDescription: string;
-  enabled: boolean;
-  inStock: boolean;
-  cost: number;
-  price: number;
-  discountPercent: number;
-  length: number;
-  width: number;
-  height: number;
-  weight: number;
-  categoryId: number;
+	id: number;
+	name: string;
+	alias: string;
+	shortDescription: string;
+	fullDescription: string;
+	enabled: boolean;
+	inStock: boolean;
+	cost: number;
+	price: number;
+	discountPercent: number;
+	length: number;
+	width: number;
+	height: number;
+	weight: number;
+	categoryId: number;
 
-  // 🖼️ Thứ tự ảnh mới được upload
-  newImageOrder: number[];
+	// 🖼️ Thứ tự ảnh mới được upload
+	newImageOrder: number[];
 
-  // 🖼️ Các ảnh cũ được giữ lại (theo id và vị trí)
-  retainedImages: {
-    id: number;
-    position: number;
-  }[];
+	// 🖼️ Các ảnh cũ được giữ lại (theo id và vị trí)
+	retainedImages: {
+		id: number;
+		position: number;
+	}[];
 
-  // 🧾 Các mô tả kỹ thuật mới thêm
-  newProductDetails: {
-    name: string;
-    value: string;
-  }[];
+	// 🧾 Các mô tả kỹ thuật mới thêm
+	newProductDetails: {
+		name: string;
+		value: string;
+	}[];
 
-  // 🧾 Các mô tả kỹ thuật cũ được giữ lại
-  retainedProductDetailIds: number[];
+	// 🧾 Các mô tả kỹ thuật cũ được giữ lại
+	retainedProductDetailIds: number[];
 }
 
+export interface ProductRq {
+	name: string;
+	alias: string;
+	shortDescription: string;
+	fullDescription: string;
+	categoryId: number; // 👈 vì trong useState bạn đang để là chuỗi
+	price: number;
+	enabled: boolean;
+	inStock: boolean;
+	cost: number;
+	discountPercent: number;
+	length: number;
+	width: number;
+	height: number;
+	weight: number;
+	details: ProductDetail[];
+}
 
 export const productService = {
 	// 🟢 Lấy danh sách sản phẩm (có phân trang)
-	async getAll(page: number = 0, size: number = 10) {
-		const res = await api.get(`/products`, { params: { page, size } });
-		return res.data as ProductPageResponse;
+	async getAll(
+		page: number = 0,
+		size: number = 10,
+		keyword = "",
+		sortField: string = "id",
+		sortDir = "asc"
+	) {
+		const params = new URLSearchParams({
+			page: String(page),
+			size: String(size),
+			sortField,
+			sortDir,
+		});
+		if (keyword !== "") {
+			params.append("keyword", keyword.trim());
+		}
+		const res = await api.get(`/products?${params.toString()}`);
+		return res.data;
 	},
 
 	// 🟢 Lấy 1 sản phẩm theo id
@@ -104,7 +136,7 @@ export const productService = {
 
 	// 🟢 Tạo mới sản phẩm (POST)
 	// Gửi 2 key: "products" (JSON) + "images" (list File[])
-	async createProduct(productData: ProductRequest, imageFiles?: File[]) {
+	async createProduct(productData: ProductRq, imageFiles?: File[]) {
 		const formData = new FormData();
 
 		formData.append(
@@ -129,7 +161,7 @@ export const productService = {
 		const formData = new FormData();
 
 		formData.append(
-			"products",
+			"product",
 			new Blob([JSON.stringify(productData)], { type: "application/json" })
 		);
 

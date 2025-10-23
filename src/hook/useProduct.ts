@@ -8,22 +8,34 @@ import {
 	ProductRequest,
 } from "@/lib/services/productService";
 import { toast } from "sonner";
+import { ProductRq } from "@/lib/services/productService";
 
 export const useProducts = () => {
 	const [products, setProducts] = useState<ProductResponse[]>([]);
 	const [selectedProduct, setSelectedProduct] = useState<ProductResponse>();
 	const [loading, setLoading] = useState(false);
 	const [page, setPage] = useState(0);
-	const [size] = useState(10);
+	const [size] = useState(5);
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
 
 	// 🟢 Lấy danh sách sản phẩm có phân trang
 	const fetchProducts = useCallback(
-		async (pageNum = page) => {
+		async (
+			pageNum = page,
+			search?: string,
+			sortField: string = "id",
+			sortDir: "asc" | "desc" = "asc"
+		) => {
 			try {
 				setLoading(true);
-				const res: ProductPageResponse = await productService.getAll(pageNum, size);
+				const res: ProductPageResponse = await productService.getAll(
+					pageNum,
+					size,
+					search ?? "",
+					sortField,
+					sortDir
+				);
 				setProducts(res.data);
 				setPage(res.page);
 				setTotalPages(res.totalPages);
@@ -56,7 +68,7 @@ export const useProducts = () => {
 
 	// 🟢 Tạo sản phẩm mới
 	const createProduct = useCallback(
-		async (productData: ProductRequest, imageFiles: File[]) => {
+		async (productData: ProductRq, imageFiles: File[]) => {
 			try {
 				setLoading(true);
 				const newProduct: ProductResponse = await productService.createProduct(
@@ -81,7 +93,10 @@ export const useProducts = () => {
 		async (productData: ProductRequest, imageFiles: File[]) => {
 			try {
 				setLoading(true);
-				const updated = await productService.updateProduct(productData, imageFiles);
+				const updated = await productService.updateProduct(
+					productData,
+					imageFiles
+				);
 				setProducts((prev) =>
 					prev.map((p) => (p.id === updated.id ? { ...p, ...updated } : p))
 				);
@@ -147,5 +162,6 @@ export const useProducts = () => {
 		updateProduct,
 		updateStatus,
 		deleteProduct,
+		refesh: fetchProducts,
 	};
 };

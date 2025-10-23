@@ -29,6 +29,8 @@ export const ProductTable = ({
 }: ProductTableProps) => {
 	const router = useRouter();
 
+console.log("List danh sách sản phẩm: ", products)
+console.log(updateStatus)
 	return (
 		<div className="border rounded-lg overflow-hidden">
 			<Table>
@@ -40,7 +42,7 @@ export const ProductTable = ({
 						<TableHead>Danh mục</TableHead>
 						<TableHead>Giá</TableHead>
 						<TableHead>Trạng thái</TableHead>
-						<TableHead className="text-right">Hành động</TableHead>
+						<TableHead className="text-right"></TableHead>
 					</TableRow>
 				</TableHeader>
 
@@ -84,17 +86,16 @@ export const ProductTable = ({
 
 								<TableCell>
 									{updateStatus && (
-										<Button
-											variant="outline"
+										<button
 											onClick={() => updateStatus(prod.id, !prod.enabled)}
-											className={`min-w-[90px] cursor-pointer ${
+											className={`w-20 rounded-full py-1 cursor-pointer ${
 												prod.enabled
-													? "bg-greenly text-white hover:bg-greenly/90"
-													: "bg-gray-400 text-black hover:bg-gray-400/90"
+													? "text-green-700 bg-green-200 border border-green-500"
+													: "bg-gray-200 text-gray-500 border border-gray-500"
 											}`}
 										>
 											{prod.enabled ? "Enabled" : "Disabled"}
-										</Button>
+										</button>
 									)}
 								</TableCell>
 

@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import React from "react";
 import Link from "next/link";
-import {ProductManagement} from "@/components/products/ProductManagement";
 import {InventoryManagement} from "@/components/inventory/InventoryManagement";
 
 
