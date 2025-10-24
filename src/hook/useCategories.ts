@@ -16,6 +16,7 @@ export const useCategories = () => {
 	const [size] = useState(5);
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
+	const [categoriesList,setCategoriesList] = useState<CategoryResponse[]>([]);
 
 	// 🟢 Lấy danh mục có phân trang
 	const fetchCategories = useCallback(
@@ -47,6 +48,17 @@ export const useCategories = () => {
 		},
 		[page, size]
 	);
+
+	const getAllCategories = useCallback(async () => {
+		try {
+			const res = await categoryService.getListCategories();
+			setCategoriesList(res.data);
+
+		} catch (error) {
+			console.error("❌ Failed to fetch categories:", error);
+			console.log("Không thể tải danh mục!");
+		}
+	}, []);
 
 	const fetchListCategories = useCallback(async () => {
 		try {
@@ -161,7 +173,8 @@ export const useCategories = () => {
 
 	useEffect(() => {
 		fetchCategories();
-	}, [fetchCategories]);
+		getAllCategories();
+	}, [fetchCategories, getAllCategories]);
 
 	return {
 		categories,
@@ -172,6 +185,7 @@ export const useCategories = () => {
 		size,
 		totalPages,
 		totalElements,
+		categoriesList,
 		setPage,
 		fetchCategories,
 		fetchListCategories,
