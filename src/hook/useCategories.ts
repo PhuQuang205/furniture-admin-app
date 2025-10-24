@@ -54,9 +54,6 @@ export const useCategories = () => {
 			const res: CategoryPageResponse =
 				await categoryService.getListCategories();
 			setCategories(res.data);
-			setPage(res.page);
-			setTotalPages(res.totalPages);
-			setTotalElements(res.totalElements);
 		} catch (error) {
 			console.error("❌ Failed to fetch categories:", error);
 			console.log("Không thể tải danh mục!");

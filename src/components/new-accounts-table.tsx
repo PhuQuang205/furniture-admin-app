@@ -9,10 +9,7 @@ export function NewAccountsTable({ newCustomers }: PropsNewCustomers) {
 	return (
 		<Card className="border-2 shadow-sm">
 			<CardHeader className="flex flex-row items-center justify-between pb-4">
-				<CardTitle>Khách hàng mới</CardTitle>
-				<a href="#" className="text-sm text-primary hover:underline">
-					Xem tất cả
-				</a>
+				<CardTitle>Khách hàng mới</CardTitle>				
 			</CardHeader>
 			<CardContent>
 				<div className="overflow-x-auto">

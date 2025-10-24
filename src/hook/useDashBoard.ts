@@ -5,6 +5,7 @@ import {
 	Order,
 	BestSellingProduct,
 	OrderByCategory,
+	DashboardStatsItem,
 } from "@/lib/services/dashboardService";
 import { useCallback, useEffect, useState } from "react";
 import { DashboardSummary, NewCustomer } from "@/lib/services/dashboardService";
@@ -16,7 +17,15 @@ export const useDashboard = () => {
 	const [bestSellingProducts, setBestSellingProducts] = useState<
 		BestSellingProduct[]
 	>([]);
-	const [ordersByCategory, setOrdersByCategory] = useState<OrderByCategory[]>([]);
+	const [stats, setStats] = useState<DashboardStatsItem[]>();
+	const [ordersByCategory, setOrdersByCategory] = useState<OrderByCategory[]>(
+		[]
+	);
+	const [customRange, setCustomRange] = useState<{
+		startDate?: string;
+		endDate?: string;
+	}>({});
+	const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +33,8 @@ export const useDashboard = () => {
 	const [page, setPage] = useState(0);
 	const [totalPage, setTotalPage] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
-	const [period] = useState("THIS_MONTH");
+	const [periodd] = useState("THIS_MONTH");
+	const [period, setPeriod] = useState("THIS_MONTH");
 
 	// 🟦 Tổng quan dashboard
 	const getTotalSumary = useCallback(async () => {
@@ -50,7 +60,10 @@ export const useDashboard = () => {
 	const getListRecentOrders = useCallback(
 		async (pageParam = page, sizeParam = size) => {
 			try {
-				const res = await dashboardService.getRecentOrders(pageParam, sizeParam);
+				const res = await dashboardService.getRecentOrders(
+					pageParam,
+					sizeParam
+				);
 				setRecentOrder(res.data);
 				setPage(res.page);
 				setTotalPage(res.totalPages);
@@ -80,31 +93,59 @@ export const useDashboard = () => {
 	// 🟪 Đơn hàng theo danh mục
 	const getOrdersByCategory = useCallback(async () => {
 		try {
-			const res = await dashboardService.getOrderByCategory(period);
+			const res = await dashboardService.getOrderByCategory(periodd);
 			setOrdersByCategory(res);
 		} catch (error) {
 			console.error("Failed to fetch orders by category:", error);
 		}
-	}, [period]);
+	}, [periodd]);
 
-	// 🔁 Gọi tất cả API khi load dashboard
+	// 🟪 Thống kê tổng hợp (đa dạng endpoint)
+	const getStats = useCallback(async () => {
+		try {
+			let res;
+
+			// 🧩 1️⃣ Nếu có chọn ngày cụ thể → /stats/by-day
+			if (selectedDate) {
+				res = await dashboardService.getStatsByDay(selectedDate);
+			}
+			// 🧩 2️⃣ Nếu có chọn custom range → /stats/custom-range
+			else if (customRange.startDate && customRange.endDate) {
+				res = await dashboardService.getStatsByCustomRange(
+					customRange.startDate,
+					customRange.endDate
+				);
+			}
+			// 🧩 3️⃣ Mặc định → /dashboard/stats?period=...
+			else {
+				res = await dashboardService.getStats({period});
+			}
+
+			setStats(res);
+		} catch (error) {
+			console.error("Failed to fetch dashboard stats:", error);
+			setStats([]); // tránh lỗi khi render
+		}
+	}, [period, selectedDate, customRange]);
+
 	useEffect(() => {
 		getTotalSumary();
 		getListNewCustomer();
 		getListRecentOrders(page, size);
 		getBestSellingProducts();
-		getOrdersByCategory(); // ✅ bổ sung
+		getOrdersByCategory();
+		getStats();
 	}, [
 		getTotalSumary,
 		getListNewCustomer,
 		getListRecentOrders,
 		getBestSellingProducts,
 		getOrdersByCategory,
+		getStats,
 		page,
 		size,
 	]);
 
-	// ✅ Return đầy đủ để component dùng được tất cả
 	return {
 		size,
 		page,
@@ -114,17 +155,22 @@ export const useDashboard = () => {
 		recentOrder,
 		newCustomers,
 		bestSellingProducts,
-		ordersByCategory, // ✅ bổ sung để truyền ra ngoài
+		ordersByCategory,
 		loading,
 		error,
+		stats,
 
 		getTotalSumary,
 		getListNewCustomer,
 		getListRecentOrders,
 		getBestSellingProducts,
-		getOrdersByCategory, // ✅ bổ sung
+		getOrdersByCategory,
+		getStats,
 
 		setPage,
+		setCustomRange,
+		setSelectedDate,
+		setPeriod,
 		refresh: getListRecentOrders,
 	};
 };

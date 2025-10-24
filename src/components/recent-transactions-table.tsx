@@ -14,10 +14,7 @@ export function RecentTransactionsTable({
 	return (
 		<Card className="border-0 shadow-sm">
 			<CardHeader className="flex flex-row items-center justify-between pb-4">
-				<CardTitle>Best Selling Products</CardTitle>
-				<a href="#" className="text-sm text-primary hover:underline">
-					View All
-				</a>
+				<CardTitle>Những sản phẩm bán chạy nhất</CardTitle>				
 			</CardHeader>
 
 			<CardContent>
@@ -25,10 +22,10 @@ export function RecentTransactionsTable({
 					<table className="w-full text-sm">
 						<thead>
 							<tr className="border-b">
-								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Image</th>
-								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Product Name</th>
-								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Product ID</th>
-								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Sold</th>
+								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Ảnh</th>
+								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Tên sản phẩm</th>
+								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Mã sản phẩm</th>
+								<th className="text-left py-3 px-2 font-medium text-muted-foreground">Đã bán</th>
 							</tr>
 						</thead>
 						<tbody>

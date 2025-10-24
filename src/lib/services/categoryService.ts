@@ -46,6 +46,7 @@ export const categoryService = {
 		const res = await api.get(`/categories?${params.toString()}`);
 		return res.data;
 	},
+	
 	async getListCategories() {
 		const res = await api.get("/categories");
 		return res.data;
